@@ -1,1 +1,0 @@
-# lecshure-frontend
