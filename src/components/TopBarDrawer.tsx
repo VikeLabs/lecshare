@@ -154,7 +154,7 @@ export default function TopBarDrawer() {
         })}
       >
     <div className={classes.drawerHeader} />
-        <LectureContent className='overflowContent'/>
+        <LectureContent />
       </main>
     </div>
   );

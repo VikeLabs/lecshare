@@ -4,8 +4,7 @@ import TopBarDrawer from "./TopBarDrawer";
 
 
 class MainContainer extends React.Component {
-   
-    constructor(props) {
+    constructor(props: any) {
         super(props);
         this.state = {
             courseName: 'SENG310'
