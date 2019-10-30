@@ -1,6 +1,6 @@
 import React from 'react'
 import TopBarDrawer from "./TopBarDrawer";
-
+import Footer from "./Footer"
 
 
 class MainContainer extends React.Component {
@@ -15,6 +15,7 @@ class MainContainer extends React.Component {
         return(
             <div className='main'>
                 <TopBarDrawer/>
+                <Footer />
             </div>
         )
     }
