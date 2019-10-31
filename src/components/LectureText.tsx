@@ -6,7 +6,9 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
     transcriptionText: {
-        fontSize: 16
+        fontSize: 16,
+        marginLeft: '20%',
+        marginRight: '20%'
     } 
 }));
 
@@ -14,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 export default function LectureContent() {
     const classes = useStyles();
     return(
-        <div className='lectureText'>
+        <div className={classes.transcriptionText}>
             <Typography paragraph>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                 ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum

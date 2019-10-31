@@ -1,12 +1,10 @@
 import React from 'react'
 import TopBarDrawer from "./TopBarDrawer";
-import { LoginForm } from './LoginForm';
-
+import Footer from "./Footer"
 
 
 class MainContainer extends React.Component {
-   
-    constructor(props) {
+    constructor(props: any) {
         super(props);
         this.state = {
             courseName: 'SENG310'
@@ -16,7 +14,8 @@ class MainContainer extends React.Component {
     render() {
         return(
             <div className='main'>
-                <LoginForm />
+                <TopBarDrawer/>
+                <Footer />
             </div>
         )
     }
