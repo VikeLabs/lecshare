@@ -1,25 +1,44 @@
 import React from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import { FormControl, Input, TextField } from '@material-ui/core';
+import { TextField, Button } from '@material-ui/core';
 
 
-export class LoginForm extends React.Component {
-    constructor(props: any) {
+interface IState {
+    email: string,
+    password: string,
+};
+
+interface IProps {};
+
+export default class LoginForm extends React.Component<IProps, IState> {
+    constructor(props: IProps) {
         super(props);
+
         this.state = {
-            username: "",
-            password: "",
+            email: '',
+            password: '',
         };
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        // encode the data
+        const data = new FormData();
+        data.set('email', this.state.email);;
+        data.set('password', this.state.password);
+
+        fetch('/api/login', 
+        )
     }
 
     render() {
         return (
-            <div className="loginForm">
-                <TextField label="email" type="email" placeholder="example@lecshure.com"/>
+            <form className="loginForm" onSubmit={this.handleSubmit}>
+                <TextField label="email" type="email" placeholder="example@lecshure.com"/><br/>
                 <TextField label="password" type="password" placeholder="password"/>
-            </div>
+                <input type="submit" value="Submit"/>
+            </form>
         );
     }
 }
