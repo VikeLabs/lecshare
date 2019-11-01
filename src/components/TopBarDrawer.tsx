@@ -22,6 +22,10 @@ import MenuBookIcon from '@material-ui/icons/MenuBook';
 
 const drawerWidth = 240;
 
+interface DrawerProps {
+  courseName: string
+}
+
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
@@ -78,7 +82,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function TopBarDrawer() {
+export default function TopBarDrawer(props: DrawerProps) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -131,7 +135,7 @@ export default function TopBarDrawer() {
         </div>
         <Divider />
         <List>
-          {['Profile', 'Messages'].map((text, index) => (
+          {[props.courseName, 'Messages'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
               <ListItemText primary={text} />

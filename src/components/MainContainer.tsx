@@ -2,8 +2,12 @@ import React from 'react'
 import TopBarDrawer from "./TopBarDrawer";
 import Footer from "./Footer"
 
+interface MainState {
+    courseName:string
+}
 
-class MainContainer extends React.Component {
+class MainContainer extends React.Component<{}, MainState> {
+    
     constructor(props: any) {
         super(props);
         this.state = {
@@ -14,7 +18,7 @@ class MainContainer extends React.Component {
     render() {
         return(
             <div className='main'>
-                <TopBarDrawer/>
+                <TopBarDrawer courseName={this.state.courseName}/>
                 <Footer />
             </div>
         )
