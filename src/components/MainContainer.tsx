@@ -15,11 +15,19 @@ class MainContainer extends React.Component<{}, MainState> {
         }
     }
 
+    ///method for handling course change (get new data, audio, text, lectures etc.)
+    changeCourse = () => {
+        
+    }
+    ///method for handling change in lecture, changing data but not available lectures or course
+    changeLecture = () => {
+    
+    }
+    
     render() {
         return(
             <div className='main'>
                 <TopBarDrawer courseName={this.state.courseName}/>
-                <Footer />
             </div>
         )
     }
