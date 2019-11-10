@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/lecshare-main/static/css/main.5865ad94.chunk.css",
+    "main.js": "/lecshare-main/static/js/main.da57b1e1.chunk.js",
+    "main.js.map": "/lecshare-main/static/js/main.da57b1e1.chunk.js.map",
+    "runtime-main.js": "/lecshare-main/static/js/runtime-main.2f8d58cf.js",
+    "runtime-main.js.map": "/lecshare-main/static/js/runtime-main.2f8d58cf.js.map",
+    "static/js/2.e1eb7d48.chunk.js": "/lecshare-main/static/js/2.e1eb7d48.chunk.js",
+    "static/js/2.e1eb7d48.chunk.js.map": "/lecshare-main/static/js/2.e1eb7d48.chunk.js.map",
+    "index.html": "/lecshare-main/index.html",
+    "precache-manifest.d15b22bb0a0153e454489af0e87a5977.js": "/lecshare-main/precache-manifest.d15b22bb0a0153e454489af0e87a5977.js",
+    "service-worker.js": "/lecshare-main/service-worker.js",
+    "static/css/main.5865ad94.chunk.css.map": "/lecshare-main/static/css/main.5865ad94.chunk.css.map",
+    "static/media/protoslideimage.jpg": "/lecshare-main/static/media/protoslideimage.61347656.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.2f8d58cf.js",
+    "static/js/2.e1eb7d48.chunk.js",
+    "static/css/main.5865ad94.chunk.css",
+    "static/js/main.da57b1e1.chunk.js"
+  ]
+}
