@@ -21,6 +21,8 @@ import LectureContent from './LectureContent'
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import Hidden from '@material-ui/core/Hidden';
 
+import LectureAudioPlayer from './LectureAudioPlayer';
+
 const drawerWidth = 200;
 
 interface DrawerProps {
@@ -103,7 +105,9 @@ export default function TopBarDrawer(props: DrawerProps) {
           <Typography variant="h6" noWrap>
             Lecshare 
           </Typography>
+         <LectureAudioPlayer source={process.env.PUBLIC_URL + 'vikelabs_test1.ogg'}/>
         </Toolbar>
+        
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
