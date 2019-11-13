@@ -138,7 +138,7 @@ export default function TopBarDrawer(props: DrawerProps) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-            <LectureContent />
+            <LectureContent courseName={props.courseName}/>
       </main>
     </div>
   ); 

@@ -2,121 +2,49 @@ import React from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-
+import { inheritLeadingComments } from '@babel/types';
+import { lineHeight, textAlign } from '@material-ui/system';
+import { workerData } from 'worker_threads';
 
 const useStyles = makeStyles(theme => ({
     transcriptionText: {
         fontSize: 16,
         marginLeft: '20%',
-        marginRight: '20%'
-    } 
+        marginRight: '20%',
+        textAlign: 'left'
+    },
+    transcriptionWord: {
+        display: 'inline-block',
+        lineHeight: '17px',
+        marginRight: '5px',
+        marginTop: '10px',
+    }
 }));
 
+type WordStorageType = {
+    word: string,
+    startTimeSeconds: string,
+    endTimeSeconds: string,
+    endTimeNano: number,
+    startTimeNano: number
+}
 
-export default function LectureContent() {
+interface LectureTextProps {
+    words: Array<WordStorageType>
+}
+
+export default function LectureContent(props: LectureTextProps) {
     const classes = useStyles();
+
+    const bodyText = props.words.map((entry, index) => {
+            return(
+                // @ts-ignore
+                <span className={classes.transcriptionWord} key={index} startTimeSeconds={entry.startTimeSeconds} startTimeNano={entry.startTimeNano} endTimeSeconds={entry.endTimeSeconds} endTimeNano={entry.endTimeNano}>{entry.word}</span>
+            )
+        }
+    )
+    
     return(
-        <div className={classes.transcriptionText}>
-            <Typography paragraph>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-                facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-                gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-                donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-                adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-                Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
-                imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-                arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-                donec massa sapien faucibus et molestie ac.
-            </Typography>
-            <Typography paragraph>
-                Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-                facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-                tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-                consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-                vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-                hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-                tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-                nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-                accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-            </Typography>
-            <Typography paragraph>
-                Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-                facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-                tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-                consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-                vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-                hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-                tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-                nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-                accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-            </Typography>
-            <Typography paragraph>
-                Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-                facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-                tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-                consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-                vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-                hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-                tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-                nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-                accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-            </Typography>
-            <Typography paragraph>
-                Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-                facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-                tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-                consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-                vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-                hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-                tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-                nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-                accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-            </Typography>
-            <Typography paragraph>
-                Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-                facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-                tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-                consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-                vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-                hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-                tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-                nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-                accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-            </Typography>
-            <Typography paragraph>
-                Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-                facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-                tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-                consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-                vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-                hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-                tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-                nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-                accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-            </Typography>
-            <Typography paragraph>
-                Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-                facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-                tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-                consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-                vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-                hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-                tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-                nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-                accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-            </Typography>
-            <Typography paragraph>
-                Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-                facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-                tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-                consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-                vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-                hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-                tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-                nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-                accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-            </Typography>
-        </div>
+        <div className={classes.transcriptionText}><p>{bodyText}</p></div>
     )
 }
