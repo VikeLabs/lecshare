@@ -1,5 +1,9 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Ensure that you have node(and npm) installed before proceeding with the rest of setup. Typing npm into console will confirm your installation.
+
+run `npm install` in the root directory of the project (the one with package.json and package-lock.json). This will create a folder `node_modules` which will house our dependencies. When pulling new code from repo, remember to npm install to check for any requirements that you don't have.
+
 ## Available Scripts
 
 In the project directory, you can run:
