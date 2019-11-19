@@ -6,12 +6,17 @@ import { inheritLeadingComments } from '@babel/types';
 import { lineHeight, textAlign } from '@material-ui/system';
 import { workerData } from 'worker_threads';
 
+//TODO conditional font size like Medium
+
+
+
 const useStyles = makeStyles(theme => ({
     transcriptionText: {
-        fontSize: 16,
-        marginLeft: '20%',
-        marginRight: '20%',
-        textAlign: 'left'
+        fontSize: 21,
+        fontFamily: 'Roboto Serif, Noto Serif, Times New Roman, serif',
+        margin: 'auto',
+        textAlign: 'left',
+        maxWidth: '40em'
     },
     transcriptionWord: {
         display: 'inline-block',
@@ -34,6 +39,7 @@ interface LectureTextProps {
 }
 
 export default function LectureContent(props: LectureTextProps) {
+    
     const classes = useStyles();
 
     const bodyText = props.words.map((entry, index) => {
