@@ -8,7 +8,7 @@ import { workerData } from 'worker_threads';
 
 const useStyles = makeStyles(theme => ({
     transcriptionText: {
-        fontSize: 16,
+        fontSize: 21,
         marginLeft: '20%',
         marginRight: '20%',
         textAlign: 'left'
