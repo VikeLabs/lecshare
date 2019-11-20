@@ -30,17 +30,25 @@ type WordStorageType = {
 }
 
 interface LectureTextProps {
-    words: Array<WordStorageType>
+    words: Array<WordStorageType>,
+    currentValue: number
 }
 
 export default function LectureContent(props: LectureTextProps) {
     const classes = useStyles();
 
     const bodyText = props.words.map((entry, index) => {
-            return(
-                // @ts-ignore
-                <span className={classes.transcriptionWord} key={index} startTimeSeconds={entry.startTimeSeconds} startTimeNano={entry.startTimeNano} endTimeSeconds={entry.endTimeSeconds} endTimeNano={entry.endTimeNano}>{entry.word}</span>
-            )
+            if (props.currentValue < +entry.startTimeSeconds) {
+                return(
+                    // @ts-ignore
+                    <span className={classes.transcriptionWord} key={index} starttimeseconds={entry.startTimeSeconds} starttimenano={entry.startTimeNano} endtimeseconds={entry.endTimeSeconds} endtimenano={entry.endTimeNano}>{entry.word}</span>
+                )
+            } else {
+                return(
+                    // @ts-ignore
+                    <span className={classes.transcriptionWord} key={index} style={{fontWeight: "bold"}} starttimeseconds={entry.startTimeSeconds} starttimenano={entry.startTimeNano} endtimeseconds={entry.endTimeSeconds} endtimenano={entry.endTimeNano}>{entry.word}</span>
+                )
+            }
         }
     )
     

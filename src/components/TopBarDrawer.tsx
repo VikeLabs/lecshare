@@ -67,9 +67,14 @@ export default function TopBarDrawer(props: DrawerProps) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [currentValue, setCurrentValue] = React.useState(0);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  const changeValue = (value: number) => {
+    setCurrentValue(value)
   };
 
   const drawer = (
@@ -105,7 +110,7 @@ export default function TopBarDrawer(props: DrawerProps) {
           <Typography variant="h6" noWrap>
             Lecshare 
           </Typography>
-         <LectureAudioPlayer source={process.env.PUBLIC_URL + 'vikelabs_test1.ogg'}/>
+         <LectureAudioPlayer source={process.env.PUBLIC_URL + 'vikelabs_test1.ogg'} returnMethod={changeValue}/>
         </Toolbar>
         
       </AppBar>
@@ -142,7 +147,7 @@ export default function TopBarDrawer(props: DrawerProps) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-            <LectureContent courseName={props.courseName}/>
+            <LectureContent courseName={props.courseName} currentValue={currentValue}/>
       </main>
     </div>
   ); 

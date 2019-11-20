@@ -11,6 +11,7 @@ import { string } from 'prop-types';
 
 interface LectureProps {
     courseName: string,
+    currentValue: number
 }
 
 interface LectureState {
@@ -68,11 +69,11 @@ class LectureContent extends React.Component<LectureProps, LectureState> {
         let lectureBody: any;
 
         if (this.state.textLoad) {
-            lectureBody = <LectureText words={this.state.wordArray}/>
+            lectureBody = <LectureText words={this.state.wordArray} currentValue={this.props.currentValue}/>
         } else {
             lectureBody = <CircularProgress />
         }
-
+        console.log(this.props.currentValue)
         return(
             <div>
                 <LectureSlides/>
