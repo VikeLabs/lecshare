@@ -11,7 +11,9 @@ const useStyles = makeStyles(theme => ({
         paddingRight: '10%',
         justifyContent: 'center',
         borderTop: 'solid',
-        borderColor: 'lightgrey'
+        borderColor: 'lightgrey',
+        position: "relative",
+        bottom: 0
     }
 }));
 
