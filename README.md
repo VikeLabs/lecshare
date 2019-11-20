@@ -46,3 +46,19 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Workflow
+
+If involved with the team on this project follow the instructions to create new branches and push your work for review. 
+
+### `git branch -b <feature-name>`
+
+From your most up to date branch of master or dlv (`git branch` to check your current branch) type the above command to create a new branch then switch to it. Then, start making any changes you want! Add and commit your files, then...
+
+### `git push lecshare-main <branch-name>` 
+
+This command will create a new branch on the lecshare-main repo and push your local copy to it. Now it's on the repo for review! 
+
+This style of work will isolate feature additions into seperate copies of the code.
+
+
