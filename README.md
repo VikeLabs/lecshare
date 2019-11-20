@@ -61,4 +61,6 @@ This command will create a new branch on the lecshare-main repo and push your lo
 
 This style of work will isolate feature additions into seperate copies of the code.
 
+Taken from [here](https://stackoverflow.com/questions/1519006/how-do-you-create-a-remote-git-branch)
+
 
