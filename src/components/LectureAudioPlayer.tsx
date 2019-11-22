@@ -12,7 +12,7 @@ import {Howl, Howler} from 'howler';
 interface AudioPlayerProps {
     value?: number
     source: string
-    returnMethod: (value: number) => void
+    onChange?: (value: number) => void
 }
 
 const useStyles = makeStyles(theme => ({
@@ -46,38 +46,36 @@ export default function LectureAudioPlayer(props: AudioPlayerProps) {
     const [duration, setDuration] = React.useState(100);
     const [playing, setPlaying] = React.useState(false);
     const [value, setValue] = React.useState(0);
-    const [howlerTime, setHowlerTime] = React.useState(0)
-    
+    const [isSliding, setIsSliding] = React.useState(false);
+
+    const requestRef: any = React.useRef();
+  
     React.useEffect(() => {
+        // runs on component mount
+        requestRef.current = requestAnimationFrame(animate);
         return () => {
-            // howler.off()
+            // dismount
+            cancelAnimationFrame(requestRef.current);
+            // unload Howler
             howler.stop();
-            howler.unload();    
-            // setHowler(null);
+            howler.unload();
         }
     },[])
 
-    React.useEffect(() => {
-        const interval = setInterval(() => {
-            if (howler.state()=='loaded') {
-                const time = getCurrentTime()
-                setHowlerTime(time)
-                setLabels(time)
-                props.returnMethod(time)
-            }
-        }, 5000);
-        return () => clearInterval(interval);
-    }, [])
-
-    const getCurrentTime = () => {
-        return Math.round(howler.seek() as number)
+    const seek = (time?: number) => {
+        return Math.floor(howler.seek() as number);
     }
 
-    const handleValue = (e: any, value: any) => {
-        if (value as number) {
-            setValue(value as number);
-            setLabels(getCurrentTime())
+    const animate = (time: any) => {
+        // The 'state' will always be the initial value here
+        if(howler.state() == "loaded"){
+            if(props.onChange){
+                props.onChange(seek());
+            }
+            setValue(seek());
+            setLabels(seek());
         }
+        requestRef.current = requestAnimationFrame(animate);
     }
 
     const setLabels = (time: number) => {
@@ -88,11 +86,24 @@ export default function LectureAudioPlayer(props: AudioPlayerProps) {
             },
             {
                 value: howler.duration(),
-                label: formatTime(howler.duration())
+                label: formatTime(duration)
             }
         ])
     }
-    
+
+    const handleValue = (e: any, value: any) => {
+        if(!isSliding){
+            setIsSliding(true);
+            cancelAnimationFrame(requestRef.current);
+        } 
+        
+        setValue(value as number);
+        if(props.onChange){
+            props.onChange(value as number);
+        }
+        setLabels(value);
+    }
+
     const handleValueCommit = (e: any, value: any) => {
         if(value as number){
             howler.seek(value as number);
@@ -101,38 +112,31 @@ export default function LectureAudioPlayer(props: AudioPlayerProps) {
                 setPlaying(true);
             }
         }
+        setIsSliding(false);
+        requestRef.current = requestAnimationFrame(animate);
     }
 
     const handlePlaying = () => {
-        setDuration(howler.duration() as number);
-        const time = getCurrentTime()
+        const time = seek();
         if(playing){
-            const i = howler.pause();
-            setHowlerTime(time)
+            howler.pause();
             setPlaying(false);
         } else {
             howler.play();
-            setHowlerTime(time)
             setPlaying(true);
         }
         
         setLabels(time)
     }
 
+    // Howler event when audio is loaded.
     howler.on('load', () => {
-        setMarks([
-            {
-                value: 0,
-                label: '0:00'
-            },
-            {
-                value: duration,
-                label: formatTime(howler.duration())
-            }
-        ]);
+        setDuration(howler.duration() as number);
+        setLabels(0);
         howler.volume(0.5);
     })
 
+    //  Howler event when audio has finished playback.
     howler.on('end', () => {
         setPlaying(false);
         setValue(0);
@@ -146,9 +150,8 @@ export default function LectureAudioPlayer(props: AudioPlayerProps) {
                 }
             </Button>
             
-            
             { howler.state() === "loading" ? <LinearProgress color="secondary" /> : <Slider 
-                value={getCurrentTime()} 
+                value={value} 
                 onChange={handleValue}
                 onChangeCommitted={handleValueCommit}
                 style={{color: 'white'}} 
