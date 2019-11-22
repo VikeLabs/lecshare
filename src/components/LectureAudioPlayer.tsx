@@ -59,11 +59,13 @@ export default function LectureAudioPlayer(props: AudioPlayerProps) {
 
     React.useEffect(() => {
         const interval = setInterval(() => {
-            const time = getCurrentTime()
-            setHowlerTime(time)
-            setLabels(time)
-            props.returnMethod(time)
-        }, 1000);
+            if (howler.state()=='loaded') {
+                const time = getCurrentTime()
+                setHowlerTime(time)
+                setLabels(time)
+                props.returnMethod(time)
+            }
+        }, 5000);
         return () => clearInterval(interval);
     }, [])
 
