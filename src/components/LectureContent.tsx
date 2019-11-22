@@ -73,7 +73,6 @@ class LectureContent extends React.Component<LectureProps, LectureState> {
         } else {
             lectureBody = <CircularProgress />
         }
-        console.log(this.props.currentValue)
         return(
             <div>
                 <LectureSlides/>

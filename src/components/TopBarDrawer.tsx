@@ -110,7 +110,7 @@ export default function TopBarDrawer(props: DrawerProps) {
           <Typography variant="h6" noWrap>
             Lecshare 
           </Typography>
-         <LectureAudioPlayer source={process.env.PUBLIC_URL + 'vikelabs_test1.ogg'} returnMethod={changeValue}/>
+         <LectureAudioPlayer source={'vikelabs_test1.ogg'} onChange={changeValue}/>
         </Toolbar>
         
       </AppBar>
