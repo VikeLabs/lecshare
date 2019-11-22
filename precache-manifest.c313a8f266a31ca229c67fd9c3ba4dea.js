@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "d78d0a6cd5b262f77bc4758273714d5d",
+    "revision": "bdc79e931dac40ea79fd6a8df2c3720e",
     "url": "/lecshare-main/index.html"
   },
   {
-    "revision": "4b261fa5bcd716d06e78",
+    "revision": "16f14199a42c8462f5ab",
     "url": "/lecshare-main/static/css/main.5865ad94.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/lecshare-main/static/js/2.8d21a7b4.chunk.js"
   },
   {
-    "revision": "4b261fa5bcd716d06e78",
-    "url": "/lecshare-main/static/js/main.b552469d.chunk.js"
+    "revision": "16f14199a42c8462f5ab",
+    "url": "/lecshare-main/static/js/main.55248549.chunk.js"
   },
   {
     "revision": "6c1b9608a5553909e25c",
