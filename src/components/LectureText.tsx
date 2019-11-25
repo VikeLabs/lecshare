@@ -26,6 +26,8 @@ const useStyles = makeStyles(theme => ({
 
         // Padding is highlighted, so it should be uniform on all sides.
         padding: '5px',
+        marginLeft: '-5px',
+        marginRight: '-5px',
         // Margins make up for extra space
         marginTop: '5px',
         marginBottom: '5px',
@@ -38,6 +40,8 @@ const useStyles = makeStyles(theme => ({
         
         // Padding is highlighted, so it should be uniform on all sides.
         padding: '5px',
+        marginLeft: '-5px',
+        marginRight: '-5px',
         // Margins make up for extra space
         marginTop: '5px',
         marginBottom: '5px',
@@ -68,12 +72,17 @@ export default function LectureContent(props: LectureTextProps) {
             if (props.currentValue != +entry.startTimeSeconds) {
                 return(
                     // @ts-ignore
-                    <span className={classes.transcriptionWord} key={index} starttimeseconds={entry.startTimeSeconds} starttimenano={entry.startTimeNano} endtimeseconds={entry.endTimeSeconds} endtimenano={entry.endTimeNano}>{entry.word}</span>
+                    <span className={classes.transcriptionWord} key={index} starttimeseconds={entry.startTimeSeconds} starttimenano={entry.startTimeNano} endtimeseconds={entry.endTimeSeconds} endtimenano={entry.endTimeNano}>
+                        {entry.word}&nbsp;
+                    </span>
                 )
             } else {
                 return(
                     // @ts-ignore
-                    <span className={classes.transcriptionWordHighlighted} key={index} starttimeseconds={entry.startTimeSeconds} starttimenano={entry.startTimeNano} endtimeseconds={entry.endTimeSeconds} endtimenano={entry.endTimeNano}>{entry.word}</span>
+                    <span key={index} starttimeseconds={entry.startTimeSeconds} starttimenano={entry.startTimeNano} endtimeseconds={entry.endTimeSeconds} endtimenano={entry.endTimeNano}>
+                        <div className={classes.transcriptionWordHighlighted}>{entry.word}</div>
+                        &nbsp;
+                    </span>    
                 )
             }
         }
