@@ -68,13 +68,15 @@ export default function TopBarDrawer(props: DrawerProps) {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [currentValue, setCurrentValue] = React.useState(0);
+  const [currentNanos, setCurrentNanos] = React.useState(0);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const changeValue = (value: number) => {
+  const changeValue = (value: number, nanos: number) => {
     setCurrentValue(value)
+    setCurrentNanos(nanos)
   };
 
   const drawer = (
@@ -147,7 +149,7 @@ export default function TopBarDrawer(props: DrawerProps) {
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-            <LectureContent courseName={props.courseName} currentValue={currentValue}/>
+            <LectureContent courseName={props.courseName} currentSeconds={currentValue} currentNanos={currentNanos}/>
       </main>
     </div>
   ); 

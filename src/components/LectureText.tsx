@@ -47,7 +47,8 @@ const useStyles = makeStyles(theme => ({
         marginBottom: '5px',
 
         backgroundColor: '#ffbed0',
-        borderRadius: '10px'
+        borderRadius: '10px',
+        transition: 'backgroundColor 100ms linear'
     }
 }));
 
@@ -61,7 +62,8 @@ type WordStorageType = {
 
 interface LectureTextProps {
     words: Array<WordStorageType>,
-    currentValue: number
+    currentSeconds: number
+    currentNanos: number
 }
 
 export default function LectureContent(props: LectureTextProps) {
@@ -69,20 +71,37 @@ export default function LectureContent(props: LectureTextProps) {
     const classes = useStyles();
 
     const bodyText = props.words.map((entry, index) => {
-            if (props.currentValue != +entry.startTimeSeconds) {
-                return(
-                    // @ts-ignore
-                    <span className={classes.transcriptionWord} key={index} starttimeseconds={entry.startTimeSeconds} starttimenano={entry.startTimeNano} endtimeseconds={entry.endTimeSeconds} endtimenano={entry.endTimeNano}>
-                        {entry.word}&nbsp;
-                    </span>
-                )
-            } else {
+            if (+entry.startTimeSeconds==+entry.endTimeSeconds && props.currentSeconds == +entry.startTimeSeconds && props.currentNanos >= +entry.startTimeNano && props.currentNanos <= +entry.endTimeNano) {
                 return(
                     // @ts-ignore
                     <span key={index} starttimeseconds={entry.startTimeSeconds} starttimenano={entry.startTimeNano} endtimeseconds={entry.endTimeSeconds} endtimenano={entry.endTimeNano}>
                         <div className={classes.transcriptionWordHighlighted}>{entry.word}</div>
                         &nbsp;
-                    </span>    
+                    </span>                 
+                )
+            } else if (+entry.startTimeSeconds + 1 == +entry.endTimeSeconds) {
+                if ((props.currentSeconds==+entry.startTimeSeconds && props.currentNanos >= +entry.startTimeNano) || (props.currentSeconds==+entry.endTimeSeconds && props.currentNanos <= +entry.endTimeNano)) {
+                    return(
+                        // @ts-ignore
+                        <span key={index} starttimeseconds={entry.startTimeSeconds} starttimenano={entry.startTimeNano} endtimeseconds={entry.endTimeSeconds} endtimenano={entry.endTimeNano}>
+                            <div className={classes.transcriptionWordHighlighted}>{entry.word}</div>
+                            &nbsp;
+                        </span>                 
+                    )
+                } else {
+                    return(
+                        // @ts-ignore
+                        <span className={classes.transcriptionWord} key={index} starttimeseconds={entry.startTimeSeconds} starttimenano={entry.startTimeNano} endtimeseconds={entry.endTimeSeconds} endtimenano={entry.endTimeNano}>
+                            {entry.word}&nbsp;
+                        </span>
+                    )
+                }
+            } else {  
+                return(
+                    // @ts-ignore
+                    <span className={classes.transcriptionWord} key={index} starttimeseconds={entry.startTimeSeconds} starttimenano={entry.startTimeNano} endtimeseconds={entry.endTimeSeconds} endtimenano={entry.endTimeNano}>
+                        {entry.word}&nbsp;
+                    </span>
                 )
             }
         }
