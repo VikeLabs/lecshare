@@ -75,7 +75,7 @@ class LectureContent extends React.Component<LectureProps, LectureState> {
         }
         return(
             <div>
-                <LectureSlides/>
+                {/* <LectureSlides/> */}
                 {lectureBody}
                 <Footer/>
             </div>     
