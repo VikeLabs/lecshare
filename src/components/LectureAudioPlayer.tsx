@@ -12,7 +12,7 @@ import {Howl, Howler} from 'howler';
 interface AudioPlayerProps {
     value?: number
     source: string
-    onChange?: (value: number) => void
+    onChange?: (value: number, nanos: number) => void
 }
 
 const useStyles = makeStyles(theme => ({
@@ -62,18 +62,25 @@ export default function LectureAudioPlayer(props: AudioPlayerProps) {
         }
     },[])
 
-    const seek = (time?: number) => {
+    const seekSeconds = (time?: number) => {
         return Math.floor(howler.seek() as number);
+    }
+
+    const seekNanos = (time?: number) => {
+        var initial = (howler.seek() as number) 
+        var decimal = (initial % 1) * 10
+        var rounded = Math.round(decimal)
+        return rounded * 100000000
     }
 
     const animate = (time: any) => {
         // The 'state' will always be the initial value here
         if(howler.state() == "loaded"){
             if(props.onChange){
-                props.onChange(seek());
+                props.onChange(seekSeconds(), seekNanos());
             }
-            setValue(seek());
-            setLabels(seek());
+            setValue(seekSeconds());
+            setLabels(seekSeconds());
         }
         requestRef.current = requestAnimationFrame(animate);
     }
@@ -99,7 +106,7 @@ export default function LectureAudioPlayer(props: AudioPlayerProps) {
         
         setValue(value as number);
         if(props.onChange){
-            props.onChange(value as number);
+            props.onChange(value as number, 0);
         }
         setLabels(value);
     }
@@ -117,7 +124,7 @@ export default function LectureAudioPlayer(props: AudioPlayerProps) {
     }
 
     const handlePlaying = () => {
-        const time = seek();
+        const time = seekSeconds();
         if(playing){
             howler.pause();
             setPlaying(false);
