@@ -75,7 +75,7 @@ export default function LectureContent(props: LectureTextProps) {
                 return(
                     // @ts-ignore
                     <span key={index} starttimeseconds={entry.startTimeSeconds} starttimenano={entry.startTimeNano} endtimeseconds={entry.endTimeSeconds} endtimenano={entry.endTimeNano}>
-                        <div className={classes.transcriptionWordHighlighted}>{entry.word}</div>
+                        <span className={classes.transcriptionWordHighlighted}>{entry.word}</span>
                         &nbsp;
                     </span>                 
                 )
@@ -84,7 +84,7 @@ export default function LectureContent(props: LectureTextProps) {
                     return(
                         // @ts-ignore
                         <span key={index} starttimeseconds={entry.startTimeSeconds} starttimenano={entry.startTimeNano} endtimeseconds={entry.endTimeSeconds} endtimenano={entry.endTimeNano}>
-                            <div className={classes.transcriptionWordHighlighted}>{entry.word}</div>
+                            <span className={classes.transcriptionWordHighlighted}>{entry.word}</span>
                             &nbsp;
                         </span>                 
                     )
