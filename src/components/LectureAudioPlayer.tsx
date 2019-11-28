@@ -15,11 +15,19 @@ interface AudioPlayerProps {
     onChange?: (value: number, nanos: number) => void
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
     playbackButton: {
+    },
+    icon: {
+        color: "white",
+    },
+    label: {
         color: "white"
     },
-}));
+    valueLabel: {
+        color: "blue"
+    }
+});
 
 function initializeHowler(props: AudioPlayerProps){
     return new Howl({
