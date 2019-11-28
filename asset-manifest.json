@@ -1,22 +1,21 @@
 {
   "files": {
     "main.css": "/lecshare-main/static/css/main.5865ad94.chunk.css",
-    "main.js": "/lecshare-main/static/js/main.4d4a216a.chunk.js",
-    "main.js.map": "/lecshare-main/static/js/main.4d4a216a.chunk.js.map",
+    "main.js": "/lecshare-main/static/js/main.b9597125.chunk.js",
+    "main.js.map": "/lecshare-main/static/js/main.b9597125.chunk.js.map",
     "runtime-main.js": "/lecshare-main/static/js/runtime-main.2f8d58cf.js",
     "runtime-main.js.map": "/lecshare-main/static/js/runtime-main.2f8d58cf.js.map",
-    "static/js/2.b4ed0d95.chunk.js": "/lecshare-main/static/js/2.b4ed0d95.chunk.js",
-    "static/js/2.b4ed0d95.chunk.js.map": "/lecshare-main/static/js/2.b4ed0d95.chunk.js.map",
+    "static/js/2.99db0cc3.chunk.js": "/lecshare-main/static/js/2.99db0cc3.chunk.js",
+    "static/js/2.99db0cc3.chunk.js.map": "/lecshare-main/static/js/2.99db0cc3.chunk.js.map",
     "index.html": "/lecshare-main/index.html",
-    "precache-manifest.79448c70b1ac11fd3f4c025abfe80d62.js": "/lecshare-main/precache-manifest.79448c70b1ac11fd3f4c025abfe80d62.js",
+    "precache-manifest.4e9131996a74b1afb95eb3cf9b04e684.js": "/lecshare-main/precache-manifest.4e9131996a74b1afb95eb3cf9b04e684.js",
     "service-worker.js": "/lecshare-main/service-worker.js",
-    "static/css/main.5865ad94.chunk.css.map": "/lecshare-main/static/css/main.5865ad94.chunk.css.map",
-    "static/media/protoslideimage.jpg": "/lecshare-main/static/media/protoslideimage.61347656.jpg"
+    "static/css/main.5865ad94.chunk.css.map": "/lecshare-main/static/css/main.5865ad94.chunk.css.map"
   },
   "entrypoints": [
     "static/js/runtime-main.2f8d58cf.js",
-    "static/js/2.b4ed0d95.chunk.js",
+    "static/js/2.99db0cc3.chunk.js",
     "static/css/main.5865ad94.chunk.css",
-    "static/js/main.4d4a216a.chunk.js"
+    "static/js/main.b9597125.chunk.js"
   ]
 }
