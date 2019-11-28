@@ -136,6 +136,22 @@ export default function LectureAudioPlayer(props: AudioPlayerProps) {
         setLabels(time)
     }
 
+    const handleJump = (event: React.MouseEvent<HTMLButtonElement>) => {
+        const offset = parseInt(event.currentTarget.value);
+        const targetValue = offset + value;
+        console.log(offset, value, targetValue)
+        if(targetValue > 0 && targetValue < duration){
+            setValue(targetValue);
+            if(!playing){
+                setLabels(targetValue);
+                if(props.onChange){
+                    props.onChange(targetValue, 0);
+                }
+            }
+            howler.seek(targetValue);
+        }
+    }
+
     // Howler event when audio is loaded.
     howler.on('load', () => {
         setDuration(howler.duration() as number);
