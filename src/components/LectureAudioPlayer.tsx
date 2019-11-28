@@ -55,6 +55,7 @@ export default function LectureAudioPlayer(props: AudioPlayerProps) {
     const [playing, setPlaying] = React.useState(false);
     const [value, setValue] = React.useState(0);
     const [isSliding, setIsSliding] = React.useState(false);
+    const [loaded, setLoaded] = React.useState(false);
 
     const requestRef: any = React.useRef();
   
@@ -164,6 +165,7 @@ export default function LectureAudioPlayer(props: AudioPlayerProps) {
     howler.on('load', () => {
         setDuration(howler.duration() as number);
         setLabels(0);
+        setLoaded(true);
         howler.volume(0.5);
     })
 
