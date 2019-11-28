@@ -61,7 +61,7 @@ export default function LectureAudioPlayer(props: AudioPlayerProps) {
   
     React.useEffect(() => {
         // runs on component mount
-        requestRef.current = requestAnimationFrame(animate);
+        // requestRef.current = requestAnimationFrame(animate);
         return () => {
             // dismount
             cancelAnimationFrame(requestRef.current);
@@ -126,19 +126,23 @@ export default function LectureAudioPlayer(props: AudioPlayerProps) {
             if(!playing){
                 howler.play();
                 setPlaying(true);
+                
             }
         }
         setIsSliding(false);
         requestRef.current = requestAnimationFrame(animate);
+        
     }
 
     const handlePlaying = () => {
         const time = seekSeconds();
         if(playing){
             howler.pause();
+            cancelAnimationFrame(requestRef.current);
             setPlaying(false);
         } else {
             howler.play();
+            requestRef.current = requestAnimationFrame(animate);
             setPlaying(true);
         }
         
