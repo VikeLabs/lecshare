@@ -2,10 +2,12 @@ import React from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { Container, Button } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
 import Slider from '@material-ui/core/Slider';
+import Forward30Icon from '@material-ui/icons/Forward30';
+import Replay10Icon from '@material-ui/icons/Replay10';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import {Howl, Howler} from 'howler';
 
@@ -181,28 +183,37 @@ export default function LectureAudioPlayer(props: AudioPlayerProps) {
 
     return (
         <Container>
-            <Button onClick={handlePlaying} disabled={howler.state() != "loaded"} >
-                {
-                    playing ? <PauseIcon className={classes.playbackButton} /> : <PlayArrowIcon className={classes.playbackButton} />
-                }
-            </Button>
-            
-            { howler.state() === "loading" ? <LinearProgress color="secondary" /> : <Slider 
+            { !loaded ? (
+                 <LinearProgress color="primary" />
+            ) :
+            (<Container>
+                <Container style={{marginTop: "7px"}} >
+                <IconButton name={"backward"} value={-10} onClick={handleJump} disabled={value -10 < 0}>
+                    <Replay10Icon className={classes.icon}/>
+                </IconButton>
+                <IconButton onClick={handlePlaying} classes={{root: classes.playbackButton}}>
+                    {playing ? <PauseIcon className={classes.icon} /> : <PlayArrowIcon className={classes.icon} />}
+                </IconButton>
+                <IconButton name={"forward"} value={30} onClick={handleJump} disabled={value + 30 > duration}>
+                    <Forward30Icon className={classes.icon}/>
+                </IconButton>
+                </Container>
+                <Slider 
                 value={value} 
                 onChange={handleValue}
                 onChangeCommitted={handleValueCommit}
                 style={{color: 'white'}} 
-                aria-labelledby="continuous-slider"
+                classes={{
+                    markLabel: classes.label,
+                    valueLabel: classes.valueLabel
+                }} 
                 marks={marks}
                 max={duration}
-                // disable the playback slider
-                disabled={howler.state() != "loaded"}
                 key={props.source}
-            />
-                
-                // <CircularProgress style={{color: "white"}} />
+                aria-labelledby="continuous-slider"
+                />
+            </Container>)
             }
-            <Typography>{props.source}</Typography>
         </Container>
     )
 }
