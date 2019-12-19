@@ -8,11 +8,13 @@ import Footer from './Footer'
 import axios from 'axios'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { string } from 'prop-types';
+import LectureAudioPlayer from './LectureAudioPlayer'
 
 interface LectureProps {
     courseName: string,
     currentSeconds: number
     currentNanos: number
+    value?: number
 }
 
 interface LectureState {
@@ -86,7 +88,7 @@ class LectureContent extends React.Component<LectureProps, LectureState> {
             <div>
                 {/* <LectureSlides/> */}
                 {lectureBody}
-                <Footer/>
+                {/*<Footer/>*/}
             </div>     
         )
     }

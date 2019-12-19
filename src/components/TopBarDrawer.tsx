@@ -21,9 +21,12 @@ import LectureContent from './LectureContent'
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import Hidden from '@material-ui/core/Hidden';
 
-import LectureAudioPlayer from './LectureAudioPlayer';
 
-const drawerWidth = 200;
+import LectureAudioPlayer from './LectureAudioPlayer';
+import Footer from './Footer';
+import AudioContainer from './AudioContainer';
+
+const drawerWidth = 300;
 
 interface DrawerProps {
   courseName: string,
@@ -45,6 +48,8 @@ const useStyles = makeStyles(theme => ({
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
     },
+    backgroundColor: 'mediumaquamarine',
+    boxShadow: 'none'
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -55,10 +60,11 @@ const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
+    backgroundColor: 'steelblue',
+    color: 'white'
   },
   content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
+    flexGrow: 1
   },
 }));
 
@@ -112,7 +118,7 @@ export default function TopBarDrawer(props: DrawerProps) {
           <Typography variant="h6" noWrap>
             Lecshare 
           </Typography>
-         <LectureAudioPlayer source={'vikelabs_test1.ogg'} onChange={changeValue}/>
+         
         </Toolbar>
         
       </AppBar>
@@ -150,6 +156,7 @@ export default function TopBarDrawer(props: DrawerProps) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
             <LectureContent courseName={props.courseName} currentSeconds={currentValue} currentNanos={currentNanos}/>
+            <LectureAudioPlayer source={'vikelabs_test1.ogg'} onChange={changeValue} displacement={drawerWidth}/>
       </main>
     </div>
   ); 

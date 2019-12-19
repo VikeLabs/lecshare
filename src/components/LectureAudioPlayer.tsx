@@ -15,21 +15,37 @@ interface AudioPlayerProps {
     value?: number
     source: string
     onChange?: (value: number, nanos: number) => void
+    displacement: number
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
     playbackButton: {
     },
     icon: {
-        color: "white",
+        color: "black",
     },
     label: {
-        color: "white"
+        color: "black"
     },
     valueLabel: {
-        color: "blue"
+        color: "black"
+    },
+    buttonContainer: {
+        color: "black",
+        marginBottom: '-5px'
+    },
+    footer: {
+        display: 'flex',
+        color: theme.palette.text.secondary,
+        padding: 'auto',
+        justifyContent: 'center',
+        backgroundColor: 'snow',
+        position: "fixed",
+        right: 0,
+        left: 300,
+        bottom: 0
     }
-});
+}));
 
 function initializeHowler(props: AudioPlayerProps){
     return new Howl({
@@ -182,38 +198,40 @@ export default function LectureAudioPlayer(props: AudioPlayerProps) {
     })
 
     return (
-        <Container>
-            { !loaded ? (
-                 <LinearProgress color="primary" />
-            ) :
-            (<Container>
-                <Container style={{marginTop: "7px"}} >
-                <IconButton name={"backward"} value={-10} onClick={handleJump} disabled={value -10 < 0}>
-                    <Replay10Icon className={classes.icon}/>
-                </IconButton>
-                <IconButton onClick={handlePlaying} classes={{root: classes.playbackButton}}>
-                    {playing ? <PauseIcon className={classes.icon} /> : <PlayArrowIcon className={classes.icon} />}
-                </IconButton>
-                <IconButton name={"forward"} value={30} onClick={handleJump} disabled={value + 30 > duration}>
-                    <Forward30Icon className={classes.icon}/>
-                </IconButton>
-                </Container>
-                <Slider 
-                value={value} 
-                onChange={handleValue}
-                onChangeCommitted={handleValueCommit}
-                style={{color: 'white'}} 
-                classes={{
-                    markLabel: classes.label,
-                    valueLabel: classes.valueLabel
-                }} 
-                marks={marks}
-                max={duration}
-                key={props.source}
-                aria-labelledby="continuous-slider"
-                />
-            </Container>)
-            }
-        </Container>
+        <footer className={classes.footer}>
+            <Container>
+                { !loaded ? (
+                    <LinearProgress color="primary" />
+                ) :
+                (<Container>
+                    <Container className={classes.buttonContainer} >
+                        <IconButton name={"backward"} value={-10} onClick={handleJump} disabled={value -10 < 0}>
+                            <Replay10Icon className={classes.icon}/>
+                        </IconButton>
+                        <IconButton onClick={handlePlaying} classes={{root: classes.playbackButton}}>
+                            {playing ? <PauseIcon className={classes.icon} /> : <PlayArrowIcon className={classes.icon} />}
+                        </IconButton>
+                        <IconButton name={"forward"} value={30} onClick={handleJump} disabled={value + 30 > duration}>
+                            <Forward30Icon className={classes.icon}/>
+                        </IconButton>
+                    </Container>
+                    <Slider 
+                    value={value} 
+                    onChange={handleValue}
+                    onChangeCommitted={handleValueCommit}
+                    style={{color: 'black'}} 
+                    classes={{
+                        markLabel: classes.label,
+                        valueLabel: classes.valueLabel
+                    }} 
+                    marks={marks}
+                    max={duration}
+                    key={props.source}
+                    aria-labelledby="continuous-slider"
+                    />
+                </Container>)
+                }
+            </Container>
+        </footer>
     )
 }

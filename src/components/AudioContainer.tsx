@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
+import LectureAudioPlayer from './LectureAudioPlayer';
 
 const useStyles = makeStyles(theme => ({
     footer: {
@@ -11,20 +12,17 @@ const useStyles = makeStyles(theme => ({
         borderTop: 'solid',
         borderColor: 'lightgrey',
         backgroundColor: 'white',
-        position: "relative",
+        position: "fixed",
+        height: '200px',
         bottom: 0
     }
 }));
 
-export default function Footer() {
+export default function AudioContainer() {
     const classes = useStyles();
     return(
         <footer className={classes.footer}>
-            <Typography color='inherit' align='center'>
-                Lecshare brought to you by Vikelabs!<br/>
-                It is our goal to make learning more accessible to everyone by recording and transcribing lectures.<br/>
-                Developed by: Aomi Jokoji, Malcolm Seyd, Alex McRae, Bryce Edwards, Derek Lowlind, Goh Sato, Kevin Matthew, Malaki Vandas, and Ryley Woodland
-            </Typography>
+            
         </footer>     
     )
 }

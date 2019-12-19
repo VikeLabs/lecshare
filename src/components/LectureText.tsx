@@ -16,7 +16,8 @@ const useStyles = makeStyles(theme => ({
         fontFamily: 'Roboto Serif, Noto Serif, Times New Roman, serif',
         margin: 'auto',
         textAlign: 'left',
-        maxWidth: '40em'
+        marginBottom: '100px',
+        maxWidth: '40em',
     },
     transcriptionWord: {
         display: 'inline-block',
