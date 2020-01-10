@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6fc9dbd1341928fa6c92a96a11082aef",
+    "revision": "5eece64c8ac8058752e74b86dc3cca38",
     "url": "/lecshare-main/index.html"
   },
   {
