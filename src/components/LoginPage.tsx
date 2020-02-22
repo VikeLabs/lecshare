@@ -16,6 +16,7 @@ function LoginPage(props: LoginProps) {
     const [verifying, setVerifying] = useState(true);
     const [userName, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [attempted, setAttempted] = useState(false);
     
     const useStyles = makeStyles(theme => ({
         root: {
@@ -40,8 +41,17 @@ function LoginPage(props: LoginProps) {
             console.log("valid credentials!");
         } else {
             console.log("invalid credentials!");
+            setAttempted(true);
         }
         
+    }
+
+    let alert;
+
+    if(attempted === true) {
+        alert = <div className="failAttempt">Invalid credentials! Please try again.</div>
+    } else {
+        alert = <div/>
     }
 
     return (
@@ -69,6 +79,7 @@ function LoginPage(props: LoginProps) {
                         Log In
                     </Button>
                 </form>
+                {alert}
             </div>
         </div>
     
