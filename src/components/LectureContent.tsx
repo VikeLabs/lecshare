@@ -36,7 +36,7 @@ class LectureContent extends React.Component<LectureProps, LectureState> {
     //for now this is a local file but eventually we will call to api to get this file. (then store in cache to quickly grab if revisiting the same component)
     //alternatively we have this call in the backend to create the html which is then sent back (but for demo we do not have)
     componentDidMount() {
-        axios.get('vikelabs_test1.json').then(response => {
+        axios.get('../vikelabs_test1.json').then(response => {
             let bodyArray: WordStorageType[] = []
             var startTimeEntry;
             var startTimeNanosEntry;

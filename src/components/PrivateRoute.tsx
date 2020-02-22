@@ -23,7 +23,7 @@ const PrivateRoute = (props: PrivateRouteProps) => {
                 isSignedIn ? (
                     <Component {...routeProps} />
                 ) : (
-                        <Redirect to='/login'/>
+                        <Redirect to='/lecshare-main/login'/>
                     )
             }
         />

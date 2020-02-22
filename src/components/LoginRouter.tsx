@@ -28,8 +28,8 @@ function LoginRouter({}) {
     return(
         <div>
             <Router>
-                <PrivateRoute path="/" component={LecturePage} isSignedIn={authenticated} />
-                <Route path="/login"><LoginPage verifyLogin={verifyLogin} authenticated={authenticated} /></Route>
+                <PrivateRoute path="/lecshare-main" component={LecturePage} isSignedIn={authenticated} />
+                <Route path="/lecshare-main/login"><LoginPage verifyLogin={verifyLogin} authenticated={authenticated} /></Route>
                 
             </Router>
         </div>
