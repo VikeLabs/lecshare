@@ -1,11 +1,20 @@
 import React from 'react';
 import './App.css';
-import MainContainer from './components/MainContainer'
+import LoginRouter from "./components/LoginRouter";
+
+
+
+
 
 const App: React.FC = () => {
+  
+
+
   return (
     <div className="App">
-      <MainContainer />
+      <LoginRouter />
+      
+      
     </div>
   );
 }

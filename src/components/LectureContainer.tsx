@@ -6,7 +6,7 @@ interface MainState {
     courseName:string
 }
 
-class MainContainer extends React.Component<{}, MainState> {
+class LectureContainer extends React.Component<{}, MainState> {
     
     constructor(props: any) {
         super(props);
@@ -33,4 +33,4 @@ class MainContainer extends React.Component<{}, MainState> {
     }
 }
 
-export default MainContainer;
+export default LectureContainer;
