@@ -156,7 +156,7 @@ export default function TopBarDrawer(props: DrawerProps) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
             <LectureContent courseName={props.courseName} currentSeconds={currentValue} currentNanos={currentNanos}/>
-            <LectureAudioPlayer source={'../vikelabs_test1.ogg'} onChange={changeValue} displacement={drawerWidth}/>
+            <LectureAudioPlayer source={'./vikelabs_test1.ogg'} onChange={changeValue} displacement={drawerWidth}/>
       </main>
     </div>
   ); 
