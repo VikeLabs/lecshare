@@ -17,6 +17,7 @@ function LoginPage(props: LoginProps) {
     const [userName, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [attempted, setAttempted] = useState(false);
+    const [authenticated ,setAuthenticated] = useState(false);
     
     const useStyles = makeStyles(theme => ({
         root: {
@@ -39,6 +40,7 @@ function LoginPage(props: LoginProps) {
         let success = props.verifyLogin(userName, password);
         if(success) {
             console.log("valid credentials!");
+            setAuthenticated(true);
         } else {
             console.log("invalid credentials!");
             setAttempted(true);
@@ -55,32 +57,38 @@ function LoginPage(props: LoginProps) {
     }
 
     return (
-        <div className="loginContainer">
-            Lecshare Login
-            <div className="formContainer">
-                <form className={classes.root} noValidate autoComplete="off">
-                    <div>
-                        <TextField 
-                            id="standard-required" 
-                            label="Username" 
-                            onChange= {handleUsernameChange}
-                        />
-                    </div>
-                    <div>
-                        <TextField
-                            id="standard-password-input"
-                            label="Password"
-                            type="password"
-                            autoComplete="current-password"
-                            onChange = {handlePasswordChange}
-                        />
-                    </div>
-                    <Button color="primary" onClick={handleLogIn}>
-                        Log In
-                    </Button>
-                </form>
-                {alert}
+        <div>
+            {props.authenticated ? (
+                <div/>
+            ) : (
+            <div className="loginContainer">
+                Lecshare Login
+                <div className="formContainer">
+                    <form className={classes.root} noValidate autoComplete="off">
+                        <div>
+                            <TextField 
+                                id="standard-required" 
+                                label="Username" 
+                                onChange= {handleUsernameChange}
+                            />
+                        </div>
+                        <div>
+                            <TextField
+                                id="standard-password-input"
+                                label="Password"
+                                type="password"
+                                autoComplete="current-password"
+                                onChange = {handlePasswordChange}
+                            />
+                        </div>
+                        <Button color="primary" onClick={handleLogIn}>
+                            Log In
+                        </Button>
+                    </form>
+                    {alert}
+                </div>
             </div>
+            )}
         </div>
     
     );
