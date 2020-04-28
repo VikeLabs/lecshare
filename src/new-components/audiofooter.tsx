@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
@@ -8,13 +8,15 @@ import Replay10Icon from '@material-ui/icons/Replay10';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import PauseIcon from '@material-ui/icons/Pause';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import {Howl} from 'howler';
+import { type } from 'os';
+
+
 
 interface AudioPlayerProps {
     value?: number
-    source: string
     onChange?: (value: number, nanos: number) => void
-    displacement: number
+    audioLoaded: boolean
+    metadataLoaded: boolean
 }
 
 const useStyles = makeStyles(theme => ({
@@ -31,27 +33,37 @@ const useStyles = makeStyles(theme => ({
     },
     buttonContainer: {
         color: "black",
-        marginBottom: '-5px'
+        marginBottom: '-5px',
+        paddingTop: '5px'
+    },
+    loadingContainer: {
+        marginTop: '45px'
+    },
+    audioContainer: {
+        borderTop: 'solid',
+        borderWidth: '1px',
+        borderColor: 'lightgray',
+        height: "100px",
+        width:'100%'
+        
+    },
+    controlsContainer: {
+        width: '70%'
     },
     footer: {
         display: 'flex',
         color: theme.palette.text.secondary,
         padding: 'auto',
         justifyContent: 'center',
-        backgroundColor: 'snow',
+        backgroundColor: 'white',
         position: "fixed",
         right: 0,
-        left: 300,
-        bottom: 0
+        left: 0,
+        bottom: 5,
+        zIndex: 1,
+        marginBottom: "-5px"
     }
 }));
-
-function initializeHowler(props: AudioPlayerProps){
-    return new Howl({
-        src: props.source,
-        preload: true
-    })
-}
 
 export function formatTime(seconds: number) {
     const h = Math.floor(seconds / 3600);
@@ -64,66 +76,52 @@ export function formatTime(seconds: number) {
     ].filter(a => a).join(':');
 }
   
-export default function LectureAudioPlayer(props: AudioPlayerProps) {
-    const classes = useStyles();
+function AudioFooter(props: AudioPlayerProps) {
+    const theme = useTheme();
+    const classes = useStyles(theme);
     const [marks, setMarks] = React.useState([{value: 0, label: '',}])
-    const [howler, setHowler] = React.useState(initializeHowler(props));
     const [duration, setDuration] = React.useState(100);
     const [playing, setPlaying] = React.useState(false);
     const [value, setValue] = React.useState(0);
     const [isSliding, setIsSliding] = React.useState(false);
-    const [loaded, setLoaded] = React.useState(false);
-
+    const [audioElement, setAudioElement] = React.useState(document.getElementById("currentAudio") as HTMLMediaElement)
     const requestRef: any = React.useRef();
-  
-    React.useEffect(() => {
-        // runs on component mount
-        // requestRef.current = requestAnimationFrame(animate);
-        return () => {
-            // dismount
-            cancelAnimationFrame(requestRef.current);
-            // unload Howler
-            howler.stop();
-            howler.unload();
+
+    useEffect(() => {
+        setAudioElement(document.getElementById("currentAudio") as HTMLMediaElement);
+        return() => {
+            cancelAnimationFrame(requestRef.current)
+            audioElement.pause();
+            audioElement.load();
         }
-    },[])
-
-    const seekSeconds = (time?: number) => {
-        return Math.floor(howler.seek() as number);
-    }
-
-    const seekNanos = (time?: number) => {
-        var initial = (howler.seek() as number) 
-        var decimal = (initial % 1) * 10
-        var rounded = Math.round(decimal)
-        return rounded * 100000000
-    }
+    }, []);
 
     const animate = (time: any) => {
-        // The 'state' will always be the initial value here
-        if(howler.state() === "loaded"){
-            if(props.onChange){
+        if(props.audioLoaded && props.metadataLoaded) {
+            if(props.onChange) {
                 props.onChange(seekSeconds(), seekNanos());
             }
+        
             setValue(seekSeconds());
             setLabels(seekSeconds());
         }
         requestRef.current = requestAnimationFrame(animate);
+
     }
 
-    const setLabels = (time: number) => {
+    const setLabels = (time:number) => {
         setMarks([
             {
                 value: 0,
                 label: formatTime(time)
             },
             {
-                value: howler.duration(),
-                label: formatTime(duration)
+                value: audioElement.duration,
+                label: formatTime(audioElement.duration)
             }
         ])
     }
-
+    
     const handleValue = (e: any, value: any) => {
         if(!isSliding){
             setIsSliding(true);
@@ -139,11 +137,10 @@ export default function LectureAudioPlayer(props: AudioPlayerProps) {
 
     const handleValueCommit = (e: any, value: any) => {
         if(value as number){
-            howler.seek(value as number);
+            audioElement.currentTime = value as number;
             if(!playing){
-                howler.play();
+                audioElement.play();
                 setPlaying(true);
-                
             }
         }
         setIsSliding(false);
@@ -153,17 +150,45 @@ export default function LectureAudioPlayer(props: AudioPlayerProps) {
 
     const handlePlaying = () => {
         const time = seekSeconds();
-        if(playing){
-            howler.pause();
-            cancelAnimationFrame(requestRef.current);
+        if(playing) {
             setPlaying(false);
+            audioElement.pause();
+            cancelAnimationFrame(requestRef.current);
+            console.log(audioElement.currentTime);
+            console.log(audioElement.duration);
+ 
         } else {
-            howler.play();
-            requestRef.current = requestAnimationFrame(animate);
             setPlaying(true);
+            requestRef.current = requestAnimationFrame(animate);
+            audioElement.play();
         }
-        
-        setLabels(time)
+        setLabels(time);
+    }
+
+    const seekSeconds = (time?: number) => {
+        return Math.floor(audioElement.currentTime as number);
+    }
+
+    const seekNanos = (time?: number) => {
+        var initial = (audioElement.currentTime as number) 
+        var decimal = (initial % 1) * 10
+        var rounded = Math.round(decimal)
+        return rounded * 100000000
+    }
+
+    if(audioElement!=null) {
+        audioElement.onloadedmetadata = function() {
+            setDuration(audioElement.duration as number);
+            setLabels(0);
+            audioElement.volume = 0.5;
+        }
+    } 
+
+    if(audioElement!=null) {
+        audioElement.onended = function() {
+            setPlaying(false);
+            setValue(0);
+        }
     }
 
     const handleJump = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -178,37 +203,26 @@ export default function LectureAudioPlayer(props: AudioPlayerProps) {
                     props.onChange(targetValue, 0);
                 }
             }
-            howler.seek(targetValue);
+            audioElement.currentTime = targetValue;
+            setValue(targetValue);
         }
     }
 
-    // Howler event when audio is loaded.
-    howler.on('load', () => {
-        setDuration(howler.duration() as number);
-        setLabels(0);
-        setLoaded(true);
-        howler.volume(0.5);
-    })
-
-    //  Howler event when audio has finished playback.
-    howler.on('end', () => {
-        setPlaying(false);
-        setValue(0);
-    })
-
     return (
         <footer className={classes.footer}>
-            <Container>
-                { !loaded ? (
-                    <LinearProgress color="primary" />
+            <Container className={classes.audioContainer}>
+                { !props.metadataLoaded ? (
+                    <div className={classes.loadingContainer}>
+                        <LinearProgress color="primary"/>
+                    </div>
                 ) :
-                (<Container>
+                (<Container className={classes.controlsContainer}>
                     <Container className={classes.buttonContainer} >
                         <IconButton name={"backward"} value={-10} onClick={handleJump} disabled={value -10 < 0}>
                             <Replay10Icon className={classes.icon}/>
                         </IconButton>
-                        <IconButton onClick={handlePlaying} classes={{root: classes.playbackButton}}>
-                            {playing ? <PauseIcon className={classes.icon} /> : <PlayArrowIcon className={classes.icon} />}
+                        <IconButton classes={{root: classes.playbackButton}} onClick={handlePlaying}>
+                            {playing ? <PauseIcon className={classes.icon} /> : <PlayArrowIcon className={classes.icon}/>}
                         </IconButton>
                         <IconButton name={"forward"} value={30} onClick={handleJump} disabled={value + 30 > duration}>
                             <Forward30Icon className={classes.icon}/>
@@ -225,7 +239,6 @@ export default function LectureAudioPlayer(props: AudioPlayerProps) {
                     }} 
                     marks={marks}
                     max={duration}
-                    key={props.source}
                     aria-labelledby="continuous-slider"
                     />
                 </Container>)
@@ -234,3 +247,5 @@ export default function LectureAudioPlayer(props: AudioPlayerProps) {
         </footer>
     )
 }
+
+export default AudioFooter;

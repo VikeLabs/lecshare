@@ -1,5 +1,4 @@
 import React from 'react';
-import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,21 +9,29 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import LectureContent from './LectureContent'
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import Hidden from '@material-ui/core/Hidden';
-
-
 import LectureAudioPlayer from './LectureAudioPlayer';
-import Footer from './Footer';
-import AudioContainer from './AudioContainer';
+import gql from 'graphql-tag'
+import {useQuery} from '@apollo/react-hooks'
+
+const GET_CLASS = gql`
+  {
+    schools {
+      name
+      classes {
+        title
+        lectures {
+          name
+        }
+      }
+    }
+  }
+`;
 
 const drawerWidth = 300;
 
@@ -70,8 +77,8 @@ const useStyles = makeStyles(theme => ({
 
 export default function TopBarDrawer(props: DrawerProps) {
   const { container } = props;
-  const classes = useStyles();
   const theme = useTheme();
+  const classes = useStyles(theme);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [currentValue, setCurrentValue] = React.useState(0);
   const [currentNanos, setCurrentNanos] = React.useState(0);
@@ -85,12 +92,34 @@ export default function TopBarDrawer(props: DrawerProps) {
     setCurrentNanos(nanos)
   };
 
+  const returnList = []
+  const { loading, error, data } = useQuery(GET_CLASS);
+  if (loading) {
+    returnList.push("Loading...")
+  }
+  else if (error) {
+    returnList.push(error.message)
+  } else {
+    for(var i = 0; i < data.schools[0].classes[0].lectures.length; i++) {
+      returnList.push(data.schools[0].classes[0].lectures[i].name)
+    }
+  }
+  
+
+  //eventually this will be built with an api call
+
+  const lectureList = ['Lecture 1', 'Lecture 2', 'Lecture 3'];
+
+  //create 
+
+  //feed into state
+
   const drawer = (
     <div>
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        {['Lecture 1', 'Lecture 2'].map((text, index) => (
+        {returnList.map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>{<MenuBookIcon/>}</ListItemIcon>
             <ListItemText primary={text} />

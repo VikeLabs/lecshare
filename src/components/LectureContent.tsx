@@ -1,14 +1,8 @@
 import React from 'react'
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import LectureText from './LectureText'
-import LectureSlides from './LectureSlides'
-import Footer from './Footer'
 import axios from 'axios'
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { string } from 'prop-types';
-import LectureAudioPlayer from './LectureAudioPlayer'
+
 
 interface LectureProps {
     courseName: string,
@@ -38,23 +32,20 @@ class LectureContent extends React.Component<LectureProps, LectureState> {
     componentDidMount() {
         axios.get('./vikelabs_test1.json').then(response => {
             let bodyArray: WordStorageType[] = []
-            var startTimeEntry;
             var startTimeNanosEntry;
-            var endTimeEntry;
-            var endTimeNanosEntry; 
-            for (var key in response.data) {
-                let section = response.data[key].alternatives[0]
-                for (var key in section.words) {
-                    if(!("nanos" in section.words[key].startTime)) {
+            for (var key1 in response.data) {
+                let section = response.data[key1].alternatives[0]
+                for (var key2 in section.words) {
+                    if(!("nanos" in section.words[key2].startTime)) {
                         startTimeNanosEntry = 0
                     } else {
-                        startTimeNanosEntry =  section.words[key].startTime.nanos
+                        startTimeNanosEntry =  section.words[key2].startTime.nanos
                     }
                     let wordStorage: WordStorageType = {
-                        word: section.words[key].word,
-                        startTimeSeconds: section.words[key].startTime.seconds,
-                        endTimeSeconds: section.words[key].endTime.seconds,
-                        endTimeNano: section.words[key].endTime.nanos,
+                        word: section.words[key2].word,
+                        startTimeSeconds: section.words[key2].startTime.seconds,
+                        endTimeSeconds: section.words[key2].endTime.seconds,
+                        endTimeNano: section.words[key2].endTime.nanos,
                         startTimeNano: startTimeNanosEntry
                     }       
                     bodyArray.push(wordStorage)

@@ -1,0 +1,16 @@
+.headerTitle {
+    font-size: 30pt;
+    font-family: 'Habibi', serif;
+    text-align: left;
+    margin-left: 50px;
+    margin-top: 7px;
+}
+
+.headerContainer {
+    position: fixed;
+    box-shadow: lightgray 0px 4px 4px 0px;
+    height: 65px;
+    width: 100%;
+    z-index: 1;
+    background-color: white;
+}

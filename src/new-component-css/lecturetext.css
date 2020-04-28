@@ -1,0 +1,26 @@
+.word {
+    display: inline-flex;
+    font-family: 'Habibi', serif;
+    font-size: 22pt;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.highlight {
+    background-color: #F8F32B;
+    border-radius: 10px;
+}
+
+.topSpacer {
+    height: 75px;
+}
+
+.botSpacer {
+    height: 110px;
+}
+
+.lectureText {
+    width: 60%;
+    margin-left: 20%;
+    text-align: justify;
+}
