@@ -73,7 +73,12 @@ function MainContainer() {
     const formatNanos = (time: string, lastNano: Number) => {
         if(time!=null) {
             var nums = time.split(".")
-            return +nums[1]
+            if(nums[1].length == 1) {
+                nums[1] += "0";
+                return +nums[1]
+            } else {
+                return +nums[1]
+            }
         } else {
             return lastNano;
         }
@@ -89,7 +94,6 @@ function MainContainer() {
 
     if(data && textLoading) {
         let words: any
-        console.log(data.schools[0].courses[0].classes[0].lectures[0].transcription.words)
         words = data.schools[0].courses[0].classes[0].lectures[0].transcription.words
         let bodyArray: WordStorageType[] = []
         let lastStartSecond: Number = 0
@@ -132,7 +136,6 @@ function MainContainer() {
                     endTimeNano: endNanos,
                 } 
                 bodyArray.push(wordStorage)
-                console.log(wordStorage);
             }
             setLectureText(bodyArray);
             setTextLoading(false);

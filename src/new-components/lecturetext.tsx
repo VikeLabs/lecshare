@@ -23,7 +23,6 @@ interface LectureProps {
 }
 
 function LectureText(props: LectureTextProps) {
-
     const bodyText = props.words.map((entry, index) => { 
         if (+entry.startTimeSeconds==+entry.endTimeSeconds && props.currentSeconds == +entry.startTimeSeconds && props.currentNanos > +entry.startTimeNano && props.currentNanos <= +entry.endTimeNano) {
             return(
@@ -32,8 +31,8 @@ function LectureText(props: LectureTextProps) {
                     <div className="highlight">{entry.word}&nbsp;</div>
                 </span>
             )
-        } else if (+entry.startTimeSeconds + 1 == +entry.endTimeSeconds) {
-            if ((props.currentSeconds==+entry.startTimeSeconds && props.currentNanos >= +entry.startTimeNano) || (props.currentSeconds==+entry.endTimeSeconds && props.currentNanos <= +entry.endTimeNano)) {
+        } else if ((props.currentSeconds + 1 == +entry.endTimeSeconds || props.currentSeconds-1==+entry.startTimeSeconds)&&(props.currentSeconds+1!=+entry.startTimeSeconds || props.currentSeconds-1!=+entry.endTimeSeconds)) {
+            if ((props.currentSeconds==+entry.startTimeSeconds && props.currentNanos >= +entry.startTimeNano) || (props.currentSeconds==+entry.endTimeSeconds && props.currentNanos <  +entry.endTimeNano)) {
                 return(
                     // @ts-ignore
                     <span className="word" key={index} starttimeseconds={entry.startTimeSeconds} starttimenano={entry.startTimeNano} endtimeseconds={entry.endTimeSeconds} endtimenano={entry.endTimeNano}>
