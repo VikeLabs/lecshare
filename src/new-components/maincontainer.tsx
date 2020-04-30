@@ -4,13 +4,47 @@ import AudioFooter from './audiofooter'
 import LectureText from './lecturetext'
 import axios from 'axios'
 import CircularProgress from '@material-ui/core/CircularProgress';
+import gql from 'graphql-tag'
+import {useQuery} from '@apollo/react-hooks'
+import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory';
+import {ApolloClient} from 'apollo-client';
+import { HttpLink } from 'apollo-link-http';
+import {ApolloProvider} from "@apollo/react-hooks";
+import { format } from 'path';
+
+const GET_AUDIO_TRANSCRIPTION = gql`
+{
+    schools(code:"VIKELABS") {
+    name
+    description
+    courses {
+        name
+        classes {
+            term
+            section
+            lectures {
+                name
+                audio
+                transcription {
+                    words {
+                        starttime
+                        endtime
+                        word
+                    }
+                }
+            }
+        }
+    }
+    }
+}
+`;
 
 type WordStorageType = {
     word: string,
-    startTimeSeconds: string,
-    endTimeSeconds: string,
-    endTimeNano: number,
-    startTimeNano: number
+    startTimeSeconds: Number,
+    endTimeSeconds: Number,
+    endTimeNano: Number,
+    startTimeNano: Number
 }
 
 function MainContainer() {
@@ -27,33 +61,95 @@ function MainContainer() {
         setCurrentNanos(nanos)
     };
 
-    useEffect(() => {
-        axios.get('./vikelabs_test1.json').then(response => {
-            let bodyArray: WordStorageType[] = []
-            var startTimeNanosEntry;
-            for (var key1 in response.data) {
-                let section = response.data[key1].alternatives[0]
-                for (var key2 in section.words) {
-                    if(!("nanos" in section.words[key2].startTime)) {
-                        startTimeNanosEntry = 0
-                    } else {
-                        startTimeNanosEntry =  section.words[key2].startTime.nanos
-                    }
-                    let wordStorage: WordStorageType = {
-                        word: section.words[key2].word,
-                        startTimeSeconds: section.words[key2].startTime.seconds,
-                        endTimeSeconds: section.words[key2].endTime.seconds,
-                        endTimeNano: section.words[key2].endTime.nanos,
-                        startTimeNano: startTimeNanosEntry
-                    }       
-                    bodyArray.push(wordStorage)
-                }        
+    const formatSeconds = (time: string, lastSecond: Number) => {
+        if(time!=null) {
+            var nums = time.split(".")
+            return +nums[0]
+        } else {
+            return lastSecond
+        }
+    }
+
+    const formatNanos = (time: string, lastNano: Number) => {
+        if(time!=null) {
+            var nums = time.split(".")
+            return +nums[1]
+        } else {
+            return lastNano;
+        }
+        
+    }
+
+        //formatted when form changed (will have another component encapsulating these ones)
+    const {data, loading, error} = useQuery(GET_AUDIO_TRANSCRIPTION);
+
+    if(loading) {
+        console.log("Loading!");
+    }
+
+    if(data && textLoading) {
+        let words: any
+        console.log(data.schools[0].courses[0].classes[0].lectures[0].transcription.words)
+        words = data.schools[0].courses[0].classes[0].lectures[0].transcription.words
+        let bodyArray: WordStorageType[] = []
+        let lastStartSecond: Number = 0
+        let lastStartNano: Number = 0
+        let lastEndSecond: Number = 0
+        let lastEndNano: Number = 0
+
+            for (var index in words) {
+                console.log(words[index]); 
+                let startSeconds: Number;
+                let endSeconds: Number;
+                let startNanos: Number;
+                let endNanos: Number;
+
+                if(words[index].starttime == null) {
+                    startSeconds = lastStartSecond;
+                    startNanos = lastStartNano;
+                } else {
+                    startSeconds = formatSeconds(words[index].starttime, lastStartSecond);
+                    startNanos = formatNanos(words[index].starttime, lastEndSecond);
+                }
+
+                if(words[index].endtime == null) {
+                    endSeconds = lastEndSecond;
+                    endNanos = lastEndNano;
+                } else {
+                    endSeconds = formatSeconds(words[index].endtime, lastEndSecond);
+                    endNanos = formatNanos(words[index].endtime, lastEndNano)
+                }
+                lastStartSecond = startSeconds
+                lastStartNano = startNanos
+                lastEndSecond = endSeconds
+                lastEndNano = endNanos
+
+                let wordStorage: WordStorageType = {
+                    word: words[index].word,
+                    startTimeSeconds: startSeconds,
+                    endTimeSeconds: endSeconds,
+                    startTimeNano: startNanos,
+                    endTimeNano: endNanos,
+                } 
+                bodyArray.push(wordStorage)
+                console.log(wordStorage);
             }
             setLectureText(bodyArray);
             setTextLoading(false);
-        }) 
+    }
+    //should also cover conditional for swapping lectures
+    if(data && audioUrl=="") {
+        console.log(data.schools[0].courses[0].classes[0].lectures[0].audio);
+        setAudioUrl(data.schools[0].courses[0].classes[0].lectures[0].audio)
+    }
+
+
+    // useEffect(() => {
+    //     axios.get('./vikelabs_test1.json').then(response => {
+            
+    //     }) 
     
-    }, []);
+    // }, []);
 
     const confirmLoaded = () => {
         setAudioLoaded(true);
@@ -65,9 +161,11 @@ function MainContainer() {
         console.log("Got metadata!");
     }
 
+    
+
     let lectureBody: any;
     if (textLoading) {
-        lectureBody = <div className="textLoading"><CircularProgress /></div>
+        lectureBody = <div><div className="topSpacer"/><div className="textLoading"><CircularProgress /></div></div>
     } else {
         lectureBody = <LectureText words={lectureText} currentNanos={currentNanos} currentSeconds={currentValue}/>
     }
@@ -79,12 +177,10 @@ function MainContainer() {
     //where to place audio so that it does not render every tiume?
     return(
         <div className="capsule">
-            <Header/>
-            <audio controls={false} id="currentAudio" onCanPlay={confirmLoaded} onLoadedMetadata={confirmAvailable}>
-                <source src="http://localhost:3000/lecshare-main/vikelabs_test1.ogg" type="audio/ogg"></source>
-            </audio>
-            {lectureBody}
-            {audioComponent}
+                <Header/>
+                <audio controls={false} src={audioUrl} id="currentAudio" preload="auto" onCanPlay={confirmLoaded} onLoadedMetadata={confirmAvailable}></audio>
+                {lectureBody}
+                {audioComponent}
         </div>
     )
 }

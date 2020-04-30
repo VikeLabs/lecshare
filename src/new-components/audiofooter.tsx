@@ -154,7 +154,8 @@ function AudioFooter(props: AudioPlayerProps) {
             setPlaying(false);
             audioElement.pause();
             cancelAnimationFrame(requestRef.current);
-            console.log(audioElement.currentTime);
+            let decimals: Number = +((audioElement.currentTime*100).toFixed()) % 100;
+            console.log(decimals)
             console.log(audioElement.duration);
  
         } else {
@@ -171,9 +172,8 @@ function AudioFooter(props: AudioPlayerProps) {
 
     const seekNanos = (time?: number) => {
         var initial = (audioElement.currentTime as number) 
-        var decimal = (initial % 1) * 10
-        var rounded = Math.round(decimal)
-        return rounded * 100000000
+        let decimals: number = +((initial*100).toFixed()) % 100;
+        return decimals
     }
 
     if(audioElement!=null) {

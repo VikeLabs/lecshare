@@ -3,10 +3,10 @@ import '../new-component-css/lecturetext.css'
 
 type WordStorageType = {
     word: string,
-    startTimeSeconds: string,
-    endTimeSeconds: string,
-    endTimeNano: number,
-    startTimeNano: number
+    startTimeSeconds: Number,
+    endTimeSeconds: Number,
+    endTimeNano: Number,
+    startTimeNano: Number
 }
 
 interface LectureTextProps {
@@ -25,7 +25,7 @@ interface LectureProps {
 function LectureText(props: LectureTextProps) {
 
     const bodyText = props.words.map((entry, index) => { 
-        if (+entry.startTimeSeconds==+entry.endTimeSeconds && props.currentSeconds == +entry.startTimeSeconds && props.currentNanos >= +entry.startTimeNano && props.currentNanos <= +entry.endTimeNano) {
+        if (+entry.startTimeSeconds==+entry.endTimeSeconds && props.currentSeconds == +entry.startTimeSeconds && props.currentNanos > +entry.startTimeNano && props.currentNanos <= +entry.endTimeNano) {
             return(
                 // @ts-ignore
                 <span className="word" key={index} starttimeseconds={entry.startTimeSeconds} starttimenano={entry.startTimeNano} endtimeseconds={entry.endTimeSeconds} endtimenano={entry.endTimeNano}>
