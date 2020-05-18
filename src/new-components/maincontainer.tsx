@@ -2,15 +2,10 @@ import React, {useEffect, useState} from 'react';
 import Header from './header';
 import AudioFooter from './audiofooter'
 import LectureText from './lecturetext'
-import axios from 'axios'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import gql from 'graphql-tag'
 import {useQuery} from '@apollo/react-hooks'
-import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory';
-import {ApolloClient} from 'apollo-client';
-import { HttpLink } from 'apollo-link-http';
-import {ApolloProvider} from "@apollo/react-hooks";
-import { format } from 'path';
+import SideBar from './sidebar';
 
 const GET_AUDIO_TRANSCRIPTION = gql`
 {
@@ -56,10 +51,22 @@ function MainContainer() {
     const [audioUrl, setAudioUrl] = useState("");
     const [audioLoaded, setAudioLoaded] = useState(false);
     const [metaDataLoaded, setMetaDataLoaded] = useState(false);
+    const [sideBarOpen, setSideBarOpen] = useState(false);
+    const [lectureIndex, setLectureIndex] = useState(0);
+
     const changeValue = (value: number, nanos: number) => {
         setCurrentValue(value)
         setCurrentNanos(nanos)
     };
+
+    const changeIndex = (index: number) => {
+        console.log("Ping!" +index)
+        setAudioUrl("");
+        setAudioLoaded(false);
+        setMetaDataLoaded(false);
+        setTextLoading(true);
+        setLectureIndex(index);
+    }
 
     const formatSeconds = (time: string, lastSecond: Number) => {
         if(time!=null) {
@@ -93,8 +100,9 @@ function MainContainer() {
     }
 
     if(data && textLoading) {
+        console.log("setting text")
         let words: any
-        words = data.schools[0].courses[0].classes[0].lectures[0].transcription.words
+        words = data.schools[0].courses[0].classes[0].lectures[lectureIndex].transcription.words
         let bodyArray: WordStorageType[] = []
         let lastStartSecond: Number = 0
         let lastStartNano: Number = 0
@@ -102,7 +110,6 @@ function MainContainer() {
         let lastEndNano: Number = 0
 
             for (var index in words) {
-                console.log(words[index]); 
                 let startSeconds: Number;
                 let endSeconds: Number;
                 let startNanos: Number;
@@ -142,8 +149,8 @@ function MainContainer() {
     }
     //should also cover conditional for swapping lectures
     if(data && audioUrl=="") {
-        console.log(data.schools[0].courses[0].classes[0].lectures[0].audio);
-        setAudioUrl(data.schools[0].courses[0].classes[0].lectures[0].audio)
+        console.log(data.schools[0].courses[0].classes[0].lectures[lectureIndex].audio);
+        setAudioUrl(data.schools[0].courses[0].classes[0].lectures[lectureIndex].audio)
     }
 
 
@@ -181,6 +188,7 @@ function MainContainer() {
     return(
         <div className="capsule">
                 <Header/>
+                <SideBar updateIndex={changeIndex}/>
                 <audio controls={false} src={audioUrl} id="currentAudio" preload="auto" onCanPlay={confirmLoaded} onLoadedMetadata={confirmAvailable}></audio>
                 {lectureBody}
                 {audioComponent}

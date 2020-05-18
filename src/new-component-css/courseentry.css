@@ -1,0 +1,33 @@
+.infoTitle {
+    text-align: center;
+    font-size: 40pt;
+    font-family: 'Habibi', serif;
+    margin-top: 16px;
+    margin-top: 50px;
+}
+
+.infoText {
+    font-size: 16pt;
+    text-align: center;
+    font-family: 'Habibi', serif;
+    margin-top: 16px;
+    margin-bottom: 50px;
+    margin-top:50px;
+}
+
+.courseEntryContainer {
+    margin-left: 30%;
+    margin-right: 30%;
+}
+
+.courseTextInput {
+    font-size: 16pt;
+    border-radius: 5px;
+    text-align: center;
+    border: solid lightgray 1px;
+    margin-bottom: 5px;
+}
+
+.entryButton {
+    font-size: 14pt;
+}
