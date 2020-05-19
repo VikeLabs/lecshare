@@ -1,17 +1,36 @@
 import React, {useEffect, useState} from 'react';
 import CourseEntry from './courseEntry';
 import MainContainer from './maincontainer';
-import {useHistory} from "react-router-dom";
-import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route, Redirect, Link} from "react-router-dom";
+import gql from 'graphql-tag';
+import { useQuery } from '@apollo/react-hooks';
+
+const VERIFY_CODE = gql`
+    query VERIFY_CODE($courseCode: String, $classCode: String, $accessKey: String) {
+        protectedClass(courseCode:"UVIC#ECON#416" classCode: "201809#A00" accessKey: "vikelabs") {
+            name
+        }
+    }
+`;
+
+type QueryInfoType = {
+    classCode: String,
+    courseCode: String,
+    accessKey: String
+}
 
 function LecshareRouter() {
+
+    let initInfos: QueryInfoType
     const [pageNumber, setPageNumber] = useState(0);
     const [courseName, setCourseName] = useState("/");
+    const [validated, setValidated] = useState(false);
+    const [queryInfo, setQueryInfo] = useState(initInfos);
 
-
-    const changeCourse = (course: string) => {
-        setCourseName(course);
-        
+    const changeCourse = (infos: QueryInfoType) => {
+        setValidated(true);
+        setQueryInfo(infos);
     }
 
     return(
@@ -21,9 +40,20 @@ function LecshareRouter() {
                     <Route exact path="/lecshare-main">
                         <CourseEntry successMethod={changeCourse}/>
                     </Route>
-                    <Route path="/lecshare-main/view">
-                        <MainContainer/>
-                    </Route>
+                    <Route 
+                        path="/lecshare-main/view" 
+                        render={({location}) => 
+                            validated ? (
+                                <MainContainer infos={queryInfo}/>
+                            ) : (
+                                <Redirect
+                                    to={{
+                                        pathname:"/lecshare-main",
+                                        state: { from: location }
+                                    }}
+                                />
+                            )}
+                    />     
                 </Switch>
             </Router>
         </div>
