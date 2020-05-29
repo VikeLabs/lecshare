@@ -35,7 +35,7 @@ function LecshareRouter() {
 
     return(
         <div className="routerContainer">
-            <Router>
+            <Router basename={process.env.PUBLIC_URL}>
                 <Switch>
                     <Route exact path="/">
                         <CourseEntry successMethod={changeCourse}/>
