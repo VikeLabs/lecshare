@@ -37,18 +37,18 @@ function LecshareRouter() {
         <div className="routerContainer">
             <Router>
                 <Switch>
-                    <Route exact path="/lecshare-main">
+                    <Route exact path="/">
                         <CourseEntry successMethod={changeCourse}/>
                     </Route>
                     <Route 
-                        path="/lecshare-main/view" 
+                        path="/view" 
                         render={({location}) => 
                             validated ? (
                                 <MainContainer infos={queryInfo}/>
                             ) : (
                                 <Redirect
                                     to={{
-                                        pathname:"/lecshare-main",
+                                        pathname:"/",
                                         state: { from: location }
                                     }}
                                 />

@@ -51,7 +51,7 @@ function CourseEntry(props: CourseEntryProps) {
                 };
                 console.log("success!")
                 props.successMethod(inputInfos);
-                history.push("/lecshare-main/view")
+                history.push("/view")
             }
         }
     })
