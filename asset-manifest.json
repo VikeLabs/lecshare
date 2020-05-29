@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/lecshare/static/css/main.553de907.chunk.css",
-    "main.js": "/lecshare/static/js/main.c83db5e0.chunk.js",
-    "main.js.map": "/lecshare/static/js/main.c83db5e0.chunk.js.map",
+    "main.css": "/lecshare/static/css/main.7659ff84.chunk.css",
+    "main.js": "/lecshare/static/js/main.dc9dc309.chunk.js",
+    "main.js.map": "/lecshare/static/js/main.dc9dc309.chunk.js.map",
     "runtime-main.js": "/lecshare/static/js/runtime-main.76f54a0a.js",
     "runtime-main.js.map": "/lecshare/static/js/runtime-main.76f54a0a.js.map",
     "static/js/2.8a14a493.chunk.js": "/lecshare/static/js/2.8a14a493.chunk.js",
     "static/js/2.8a14a493.chunk.js.map": "/lecshare/static/js/2.8a14a493.chunk.js.map",
     "index.html": "/lecshare/index.html",
-    "precache-manifest.24091e8a8726ced67303900b2026fdf3.js": "/lecshare/precache-manifest.24091e8a8726ced67303900b2026fdf3.js",
+    "precache-manifest.be2bafef5bcea33247b61be2f9615e4b.js": "/lecshare/precache-manifest.be2bafef5bcea33247b61be2f9615e4b.js",
     "service-worker.js": "/lecshare/service-worker.js",
-    "static/css/main.553de907.chunk.css.map": "/lecshare/static/css/main.553de907.chunk.css.map",
+    "static/css/main.7659ff84.chunk.css.map": "/lecshare/static/css/main.7659ff84.chunk.css.map",
     "static/js/2.8a14a493.chunk.js.LICENSE.txt": "/lecshare/static/js/2.8a14a493.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.76f54a0a.js",
     "static/js/2.8a14a493.chunk.js",
-    "static/css/main.553de907.chunk.css",
-    "static/js/main.c83db5e0.chunk.js"
+    "static/css/main.7659ff84.chunk.css",
+    "static/js/main.dc9dc309.chunk.js"
   ]
 }
