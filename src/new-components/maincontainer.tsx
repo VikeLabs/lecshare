@@ -8,32 +8,6 @@ import {useQuery} from '@apollo/react-hooks'
 import SideBar from './sidebar';
 import {useHistory} from "react-router-dom";
 
-// const GET_AUDIO_TRANSCRIPTION = gql`
-// {
-//     schools(code:"VIKELABS") {
-//     name
-//     description
-//     courses {
-//         name
-//         classes {
-//             term
-//             section
-//             lectures {
-//                 name
-//                 audio
-//                 transcription {
-//                     words {
-//                         starttime
-//                         endtime
-//                         word
-//                     }
-//                 }
-//             }
-//         }
-//     }
-//     }
-// }
-// `;
 const VERIFY_CODE = gql`
     query VERIFY_CODE($crsCode: String!, $clsCode: String!, $acsKey: String!) {
         protectedClass(courseCode: $crsCode classCode: $clsCode accessKey: $acsKey) {

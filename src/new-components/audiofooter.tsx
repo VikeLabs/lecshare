@@ -90,9 +90,11 @@ function AudioFooter(props: AudioPlayerProps) {
     useEffect(() => {
         setAudioElement(document.getElementById("currentAudio") as HTMLMediaElement);
         return() => {
-            cancelAnimationFrame(requestRef.current)
-            audioElement.pause();
-            audioElement.load();
+            if(audioElement!=null) {
+                cancelAnimationFrame(requestRef.current)
+                audioElement.pause();
+                audioElement.load();
+            }    
         }
     }, []);
 

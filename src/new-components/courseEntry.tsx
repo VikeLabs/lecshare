@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useHistory} from "react-router-dom";
 import '../new-component-css/courseentry.css'
 import gql from 'graphql-tag';
-import { useQuery } from '@apollo/react-hooks';
+import { useLazyQuery } from '@apollo/react-hooks';
 
 const VERIFY_CODE = gql`
     query VERIFY_CODE($crsCode: String!, $clsCode: String!, $acsKey: String!) {
@@ -28,18 +28,39 @@ function CourseEntry(props: CourseEntryProps) {
     const [clsCode, setClsCode] = useState("");
     const [acsKey, setAcsKey] = useState("");
     const [invalidCode, setInvalidCode] = useState(false);
+    const [checkingCode, setCheckingCode] = useState(false);
     const history = useHistory();
 
-    const {loading, error, data, variables} = useQuery(VERIFY_CODE, {
+    const [checkCode, {loading, error, data, variables}] = useLazyQuery(VERIFY_CODE, {
         variables: {
             crsCode,
             clsCode,
             acsKey
         },
+        onCompleted: () => {
+            if(error) {
+                setCheckingCode(false);
+                setInvalidCode(true);
+            } else {
+                setCheckingCode(false);
+                setInvalidCode(false);
+                let inputInfos: QueryInfoType = {
+                    classCode: clsCode,
+                    courseCode: crsCode,
+                    accessKey: acsKey
+                };
+                console.log("success!")
+                props.successMethod(inputInfos);
+                history.push("/lecshare-main/view")
+            }
+        }
     })
 
     const parseInput = () => {
         //example input "UVIC#ECON#416-201809#A00-vikelabs-"
+        if(input==undefined) {
+            return '';
+        }
         var toParse = input;
         var split = toParse.split("-");
 
@@ -55,29 +76,39 @@ function CourseEntry(props: CourseEntryProps) {
         return returnInfo;
     }
 
-    const submitCode = () => {
-        console.log(input);
-        if(error) {
-            setInvalidCode(true);
-        } else {
-            let inputInfos: QueryInfoType = {
-                classCode: clsCode,
-                courseCode: crsCode,
-                accessKey: acsKey
-            };
-            console.log("success!")
-            props.successMethod(inputInfos);
-            history.push("/lecshare-main/view")
-        }
-        
-
-        //check if code is valid
-
-        //if valid fetch corresponding course and switch route (prop method)
-
-        //if invalid prompt message
+    const submitCode = (event) => {
+        setInvalidCode(false);
+        event.preventDefault();
+        setInput(event.target.value)
+        var parsed = parseInput();
+        setCheckingCode(true);
+        checkCode();
     }
+
+    const updateCode = (event) => {
+        setInput(event.target.value)
+        if(event.target.value != undefined) {
+            var parsed = parseInput();
+        }
+    }
+
     let warning: any;
+    let checking: any;
+
+    if(error && !invalidCode) {
+        setInvalidCode(true);
+        setCheckingCode(false);
+    }
+
+    if(!checkingCode) {
+        checking = (
+            <input className="entryButton" type="submit" value="Submit"/>
+        )
+    } else {
+        checking = (
+            <div>loading...</div>
+        )
+    }
     if(invalidCode) {
         warning = (
             <div className="invalidNotification">Invalid course code</div>
@@ -87,11 +118,7 @@ function CourseEntry(props: CourseEntryProps) {
             <div></div>
         )
     }
-    const updateCode = (event) => {
-        setInput(event.target.value)
-        var parsed = parseInput();
-        console.log(parsed);
-    }
+
     return(
         <div className="courseEntryContainer">
             <div className="infoTitle">Long Live the Lecture</div>
@@ -100,8 +127,10 @@ function CourseEntry(props: CourseEntryProps) {
                 Spend less time trying to write everything down and more time in the lecture.
                 </div>
             <div className="courseCodeEntry">   
-            <input className="courseTextInput" type="text" onInput={updateCode} placeholder="Course code" name="coursename"/><br/>
-            <input className="entryButton" type="submit" value="Submit" onClick={submitCode} /><br/>
+            <form onSubmit={submitCode}>
+                <input className="courseTextInput" type="text" onInput={updateCode} placeholder="Course code" name="coursename"/><br/>
+                {checking}<br/>
+            </form>
             {warning}
             </div>
         </div>

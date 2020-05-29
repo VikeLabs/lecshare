@@ -44,7 +44,6 @@ function SideBar(props: SideBarProps) {
     }
 
     let listitems: any;
-
     if (data && listLoading) {
         let lectures: any
         lectures = data.schools[0].courses[0].classes[0].lectures
