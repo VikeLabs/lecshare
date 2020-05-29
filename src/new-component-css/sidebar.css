@@ -1,0 +1,44 @@
+.sideBarContainerClosed {
+    float: left;
+    position: fixed;
+    height: 600px;
+    width: 80px;
+    background-color: #2B2D42;
+    color: white;
+}
+
+.sideBarContainerOpen{
+    float: left;
+    position: fixed;
+    height: 600px;
+    width: 250px;
+    background-color: #2B2D42;
+    color: white;
+    overflow-y: auto;
+}
+
+.sideBarContainerOpen {
+    float: left;
+}
+
+.topSpacer {
+    height: 75px;
+}
+
+.lectureOption {
+    font-size: 16pt;
+    text-align: left;
+    padding-left: 10pt;
+    margin-bottom: 5px;
+}
+
+.lectureOption:hover {
+    cursor: pointer;
+    background-color: rgb(59, 61, 83);
+}
+
+.expandButton {
+    justify-content: center;
+    width: 25px;
+    background-color: white;
+}

@@ -1,6 +1,5 @@
 import React from 'react'
 import TopBarDrawer from "./TopBarDrawer";
-import Footer from "./Footer"
 
 interface MainState {
     courseName:string
