@@ -27,6 +27,7 @@ const GET_AUDIO_TRANSCRIPTION = gql`
                         word
                         starttime
                         endtime
+                        type
                     }
                 }
             }
@@ -107,7 +108,79 @@ function MainContainer(props: MainContainerProps) {
         
     }
 
-        //formatted when form changed (will have another component encapsulating these ones)
+    const capitalize = (s) => {
+        return s && s[0].toUpperCase() + s.slice(1);
+    }
+
+    const lecture = (data) => {
+        let previousWord = "";
+        let previousType;
+        let previousEndSeconds = 0;
+        let previousStartSeconds = 0;
+        let previousEndNanos = 0;
+        let previousStartNanos = 0;
+
+        let words: WordStorageType[] = []
+
+        for (const [index, value] of data.words.entries()) {
+            let startSeconds: Number;
+            let endSeconds: Number;
+            let startNanos: Number;
+            let endNanos: Number;
+            let wordEntry: string;
+
+            if(value.starttime == null) {
+                startSeconds = previousStartSeconds;
+                startNanos = previousStartNanos;
+            } else {
+                startSeconds = formatSeconds(value.starttime, previousStartSeconds);
+                startNanos = formatNanos(value.starttime, previousStartNanos);
+            }
+
+            if(value.endtime == null) {
+                endSeconds = previousEndSeconds;
+                endNanos = previousEndNanos;
+            } else {
+                endSeconds = formatSeconds(value.endtime, previousEndSeconds);
+                endNanos = formatNanos(value.endtime, previousEndNanos)
+            }
+
+            if (value.type === "punctuation") {
+                wordEntry = value.word;
+                startSeconds = previousStartSeconds
+                endSeconds = previousEndSeconds
+                startNanos = previousStartNanos
+                endNanos = previousEndNanos
+            } else if (previousType === "punctuation" || previousWord === "") {
+                if(previousWord !== ","){
+                    wordEntry = value.word;
+                } else {
+                    wordEntry = value.word;
+                }
+            } else if(previousType === "pronunciation"){
+                wordEntry = value.word;
+            } else {
+                wordEntry = value.word;
+            }
+            previousWord = value.word;
+            previousType = value.type;
+
+            let wordStorage: WordStorageType = {
+                word: wordEntry,
+                startTimeSeconds: startSeconds,
+                endTimeSeconds: endSeconds,
+                startTimeNano: startNanos,
+                endTimeNano: endNanos,
+            } 
+            words.push(wordStorage)
+        }
+        // return data.words.map(({word}) => (
+        //   <span>{word}</span>
+        // ))
+        console.log(words)
+        return words;
+      }
+
     const {data, loading, error} = useQuery(GET_AUDIO_TRANSCRIPTION, {
         variables: {
             crsCode,
@@ -123,64 +196,15 @@ function MainContainer(props: MainContainerProps) {
     if(data && textLoading) {
         console.log("setting text")
         let words: any
-        words = data.protectedClass.lectures[lectureIndex].transcription.words
-        let bodyArray: WordStorageType[] = []
-        let lastStartSecond: Number = 0
-        let lastStartNano: Number = 0
-        let lastEndSecond: Number = 0
-        let lastEndNano: Number = 0
-
-            for (var index in words) {
-                let startSeconds: Number;
-                let endSeconds: Number;
-                let startNanos: Number;
-                let endNanos: Number;
-
-                if(words[index].starttime == null) {
-                    startSeconds = lastStartSecond;
-                    startNanos = lastStartNano;
-                } else {
-                    startSeconds = formatSeconds(words[index].starttime, lastStartSecond);
-                    startNanos = formatNanos(words[index].starttime, lastEndSecond);
-                }
-
-                if(words[index].endtime == null) {
-                    endSeconds = lastEndSecond;
-                    endNanos = lastEndNano;
-                } else {
-                    endSeconds = formatSeconds(words[index].endtime, lastEndSecond);
-                    endNanos = formatNanos(words[index].endtime, lastEndNano)
-                }
-                lastStartSecond = startSeconds
-                lastStartNano = startNanos
-                lastEndSecond = endSeconds
-                lastEndNano = endNanos
-
-                let wordStorage: WordStorageType = {
-                    word: words[index].word,
-                    startTimeSeconds: startSeconds,
-                    endTimeSeconds: endSeconds,
-                    startTimeNano: startNanos,
-                    endTimeNano: endNanos,
-                } 
-                bodyArray.push(wordStorage)
-            }
-            setLectureText(bodyArray);
-            setTextLoading(false);
+        words = lecture(data.protectedClass.lectures[lectureIndex].transcription);
+        setLectureText(words);
+        setTextLoading(false);
     }
-    //should also cover conditional for swapping lectures
+
     if(data && audioUrl=="") {
         console.log(data.protectedClass.lectures[lectureIndex].audio);
         setAudioUrl(data.protectedClass.lectures[lectureIndex].audio);
     }
-
-
-    // useEffect(() => {
-    //     axios.get('./vikelabs_test1.json').then(response => {
-            
-    //     }) 
-    
-    // }, []);
 
     const confirmLoaded = () => {
         setAudioLoaded(true);
