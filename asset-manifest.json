@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/lecshare/static/css/main.f44c8d3a.chunk.css",
-    "main.js": "/lecshare/static/js/main.79afa965.chunk.js",
-    "main.js.map": "/lecshare/static/js/main.79afa965.chunk.js.map",
+    "main.css": "/lecshare/static/css/main.553de907.chunk.css",
+    "main.js": "/lecshare/static/js/main.c83db5e0.chunk.js",
+    "main.js.map": "/lecshare/static/js/main.c83db5e0.chunk.js.map",
     "runtime-main.js": "/lecshare/static/js/runtime-main.76f54a0a.js",
     "runtime-main.js.map": "/lecshare/static/js/runtime-main.76f54a0a.js.map",
-    "static/js/2.c2ea988d.chunk.js": "/lecshare/static/js/2.c2ea988d.chunk.js",
-    "static/js/2.c2ea988d.chunk.js.map": "/lecshare/static/js/2.c2ea988d.chunk.js.map",
+    "static/js/2.8a14a493.chunk.js": "/lecshare/static/js/2.8a14a493.chunk.js",
+    "static/js/2.8a14a493.chunk.js.map": "/lecshare/static/js/2.8a14a493.chunk.js.map",
     "index.html": "/lecshare/index.html",
-    "precache-manifest.b1b463a1e669f71dc81fe33b128f50f1.js": "/lecshare/precache-manifest.b1b463a1e669f71dc81fe33b128f50f1.js",
+    "precache-manifest.24091e8a8726ced67303900b2026fdf3.js": "/lecshare/precache-manifest.24091e8a8726ced67303900b2026fdf3.js",
     "service-worker.js": "/lecshare/service-worker.js",
-    "static/css/main.f44c8d3a.chunk.css.map": "/lecshare/static/css/main.f44c8d3a.chunk.css.map",
-    "static/js/2.c2ea988d.chunk.js.LICENSE.txt": "/lecshare/static/js/2.c2ea988d.chunk.js.LICENSE.txt"
+    "static/css/main.553de907.chunk.css.map": "/lecshare/static/css/main.553de907.chunk.css.map",
+    "static/js/2.8a14a493.chunk.js.LICENSE.txt": "/lecshare/static/js/2.8a14a493.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.76f54a0a.js",
-    "static/js/2.c2ea988d.chunk.js",
-    "static/css/main.f44c8d3a.chunk.css",
-    "static/js/main.79afa965.chunk.js"
+    "static/js/2.8a14a493.chunk.js",
+    "static/css/main.553de907.chunk.css",
+    "static/js/main.c83db5e0.chunk.js"
   ]
 }
