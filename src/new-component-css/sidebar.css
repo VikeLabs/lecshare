@@ -7,7 +7,7 @@
     color: white;
 }
 
-.sideBarContainerOpen{
+.sideBarContainerOpen {
     float: left;
     position: fixed;
     height: 100%;
@@ -28,8 +28,6 @@
 .lectureOption {
     font-size: 16pt;
     text-align: left;
-    padding-left: 10pt;
-    padding-right: 10pt;
     margin-bottom: 5px;
     border-bottom: "1px solid white";
 }
@@ -43,4 +41,18 @@
     justify-content: center;
     width: 40px;
     /* background-color: white; */
+}
+
+.listContainer {
+    padding-left: 10pt;
+    padding-right: 10pt;
+}
+
+.listTitle {
+    text-align: left;
+}
+
+.listCourseTitle {
+    font-size: 12px;
+    margin-bottom: 10px;
 }

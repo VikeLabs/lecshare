@@ -1,7 +1,7 @@
 import React from 'react';
 import '../new-component-css/sidebar.css'
-import {useEffect, useState} from 'react';
-import {useQuery} from '@apollo/react-hooks';
+import { useEffect, useState } from 'react';
+import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag'
 import { LecshareStore } from "../store/LecshareStore";
 import MenuIcon from '@material-ui/icons/Menu';
@@ -39,8 +39,8 @@ function SideBar(props: SideBarProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [listLoading, setListLoading] = useState(true);
 
-    const {data, loading, error} = useQuery(GET_LECTURES);
-    
+    const { data, loading, error } = useQuery(GET_LECTURES);
+
     if (loading) {
         console.log("loading lecture list!")
     }
@@ -48,15 +48,15 @@ function SideBar(props: SideBarProps) {
     let listitems: any;
     if (data && listLoading) {
         let lectures = props.data.lectures
-        listitems = lectures.map(function(item, index) {
-            return(
+        listitems = lectures.map(function (item, index) {
+            return (
                 <div className="lectureOption" key={index} onClick={() => changeLecture(index)}>
                     {item.name}
                 </div>
             )
         })
         //setListLoading(false);
-        
+
     } else {
         listitems = <div className="lectureOption">Oops, no lectures</div>
     }
@@ -66,32 +66,35 @@ function SideBar(props: SideBarProps) {
         setIsOpen(!isOpen);
     }
 
-    if(!isOpen) {
-        return(
+    if (!isOpen) {
+        return (
             <div>
                 <div className="sideBarContainerClosed">
-                <div className="topSpacer"></div>
-                    <div className="expandButton" onClick={handleExpand}><MenuIcon/></div>
+                    <div className="topSpacer"></div>
+                    <div className="expandButton" onClick={handleExpand}><MenuIcon /></div>
                 </div>
             </div>
         )
     } else {
-        return(
+        return (
             <div>
                 <div className="sideBarContainerOpen">
                     <div className="topSpacer"></div>
-                    <div className="expandButton" onClick={handleExpand}><MenuIcon/></div>
-                    <div className="listTitle"></div>
-                    <div className="listCourseTitle"></div>
-                    <div className="courseList">
-                        {listitems}
+                    <div className="expandButton" onClick={handleExpand}><MenuIcon /></div>
+                    <div className="listContainer">
+                        <div className="listTitle">{props.data.subject}{props.data.code} - {props.data.term}{props.data.section}</div>
+                        <span className="listCourseTitle">{props.data.name}</span>
+                        <div className="courseList">
+                            {listitems}
+                        </div>
                     </div>
+
                 </div>
             </div>
-            
+
         )
     }
-    
+
 }
 
 export default SideBar;

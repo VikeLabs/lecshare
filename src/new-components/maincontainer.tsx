@@ -19,6 +19,10 @@ const GET_AUDIO_TRANSCRIPTION = gql`
     query VERIFY_CODE($crsCode: String!, $clsCode: String!, $acsKey: String!) {
         protectedClass(courseCode: $crsCode classCode: $clsCode accessKey: $acsKey) {
             name
+            subject
+            code
+            term
+            section
             lectures {
                 name
                 audio
