@@ -4,9 +4,11 @@ import {useEffect, useState} from 'react';
 import {useQuery} from '@apollo/react-hooks';
 import gql from 'graphql-tag'
 import { LecshareStore } from "../store/LecshareStore";
+import MenuIcon from '@material-ui/icons/Menu';
 
 interface SideBarProps {
     updateIndex?: (index: number) => void
+    data?: any;
 }
 
 function SideBar(props: SideBarProps) {
@@ -45,12 +47,11 @@ function SideBar(props: SideBarProps) {
 
     let listitems: any;
     if (data && listLoading) {
-        let lectures: any
-        lectures = data.schools[0].courses[0].classes[0].lectures
+        let lectures = props.data.lectures
         listitems = lectures.map(function(item, index) {
             return(
                 <div className="lectureOption" key={index} onClick={() => changeLecture(index)}>
-                    {lectures[index].name}
+                    {item.name}
                 </div>
             )
         })
@@ -70,7 +71,7 @@ function SideBar(props: SideBarProps) {
             <div>
                 <div className="sideBarContainerClosed">
                 <div className="topSpacer"></div>
-                    <div className="expandButton" onClick={handleExpand}>hi</div>
+                    <div className="expandButton" onClick={handleExpand}><MenuIcon/></div>
                 </div>
             </div>
         )
@@ -79,7 +80,7 @@ function SideBar(props: SideBarProps) {
             <div>
                 <div className="sideBarContainerOpen">
                     <div className="topSpacer"></div>
-                    <div className="expandButton" onClick={handleExpand}>hi</div>
+                    <div className="expandButton" onClick={handleExpand}><MenuIcon/></div>
                     <div className="listTitle"></div>
                     <div className="listCourseTitle"></div>
                     <div className="courseList">

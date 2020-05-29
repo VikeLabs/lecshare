@@ -229,7 +229,7 @@ function MainContainer(props: MainContainerProps) {
     return(
         <div className="capsule">
                 <Header/>
-                <SideBar updateIndex={changeIndex}/>
+                {(data && !loading) && <SideBar updateIndex={changeIndex} data={data.protectedClass} />}
                 <audio controls={false} src={audioUrl} id="currentAudio" preload="auto" onCanPlay={confirmLoaded} onLoadedMetadata={confirmAvailable}></audio>
                 {lectureBody}
                 {audioComponent}
