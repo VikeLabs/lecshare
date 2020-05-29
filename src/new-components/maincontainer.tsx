@@ -76,7 +76,6 @@ function MainContainer(props: MainContainerProps) {
     };
 
     const changeIndex = (index: number) => {
-        console.log("Ping!" +index)
         setAudioUrl("");
         setAudioLoaded(false);
         setMetaDataLoaded(false);
@@ -146,11 +145,9 @@ function MainContainer(props: MainContainerProps) {
             }
 
             if (value.type === "punctuation") {
+                words[words.length-1].word = words[words.length-1].word + value.word
                 wordEntry = value.word;
-                startSeconds = previousStartSeconds
-                endSeconds = previousEndSeconds
-                startNanos = previousStartNanos
-                endNanos = previousEndNanos
+                continue
             } else if (previousType === "punctuation" || previousWord === "") {
                 if(previousWord !== ","){
                     wordEntry = value.word;
@@ -177,7 +174,6 @@ function MainContainer(props: MainContainerProps) {
         // return data.words.map(({word}) => (
         //   <span>{word}</span>
         // ))
-        console.log(words)
         return words;
       }
 
